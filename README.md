@@ -1,5 +1,5 @@
 Início do projeto.
-É importante que todos os membros tenham noção do seguinte:
+É importante que todos os membros tenham noção do seguinte:<br>
 1 - faremos em jetpack compose, então assista as aulas do "ComposeInit", é um módulo lá da comunidade, que tem 9 aulas. Se já concluiu o 10d challenge, vá pra lá pois é importante.
 2 - O nosso código já está organizado em pacotes por funcionalidade, e no momento temos duas funcionalidades principais: lista e detalhes
 3 - Cada uma das funcionalidades, devemos dividir em UI e dados. Dois membros ficarão responsáveis pela parte de UI, e dois pela parte de dados, ainda vamos definir isso até dia 05/03/2025
