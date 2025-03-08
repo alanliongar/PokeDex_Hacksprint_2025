@@ -1,5 +1,5 @@
 package com.example.pokedex_hacksprint_2025
-
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PokeDex_Hacksprint_2025Theme {
+                val context = LocalContext.current
                 var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
                 val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
                 val pokemonNameUrl = pokemonApi.getPokemonList()
@@ -81,6 +83,9 @@ class MainActivity : ComponentActivity() {
                     items(pokemonNameUrlList) { pokeItem->
                         PokeCard(pokeItem){clickedPokemon ->
                             Log.d("Clique ", "Clicou no pokemon "+clickedPokemon.name)
+                            val intent = Intent(context, PokeDetailActivity::class.java)
+                            intent.putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+                            startActivity(intent)
                         }
                     }
                 }
