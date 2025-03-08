@@ -12,7 +12,7 @@ class PokeDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poke_detail)
 
-        // Pegando os componentes da UI
+        /*// Pegando os componentes da UI
         val pokemonImage = findViewById<ImageView>(R.id.pokemonImage)
         val pokemonName = findViewById<TextView>(R.id.pokemonName)
         val pokemonWeight = findViewById<TextView>(R.id.pokemonWeight)
@@ -37,6 +37,6 @@ class PokeDetailActivity : AppCompatActivity() {
 
         hpBar.progress = hp
         attackBar.progress = attack
-        defenseBar.progress = defense
+        defenseBar.progress = defense*/
     }
 }

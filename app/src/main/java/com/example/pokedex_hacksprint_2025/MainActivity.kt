@@ -130,7 +130,9 @@ fun PokeCard(
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    //PokeCard(bulbaMock)
+    PokeCard(bulbaMock){ bulba->
+        println("Bulba Clicked lol")
+    }
 }
 
 val bulbaMock = PokemonItem(
