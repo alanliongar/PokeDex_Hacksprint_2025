@@ -1,3 +1,15 @@
 <resources>
+    <!-- Nome do App -->
     <string name="app_name">PokeDex_Hacksprint_2025</string>
+
+    <!-- Detalhes do Pokémon -->
+    <string name="pokemon_details_title">Detalhes do Pokémon</string>
+    <string name="pokemon_weight_label">Peso: %1$s</string> <!-- Aqui, %1$s será substituído por 'weight' -->
+    <string name="pokemon_height_label">Altura: %1$s</string> <!-- Aqui, %1$s será substituído por 'height' -->
+    <string name="unknown">Desconhecido</string>
+    <string name="pokemon_base_stats">Estatísticas Base</string>
+    <string name="hp_label">HP</string>
+    <string name="attack_label">Ataque</string>
+    <string name="defense_label">Defesa</string>
+    <string name="pokemon_types_label">Tipo(s):</string>
 </resources>

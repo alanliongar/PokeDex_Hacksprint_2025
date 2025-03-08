@@ -1,18 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#212121">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textColor="@color/black"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Imagem do Pokémon -->
+
+        <!-- Nome do Pokémon -->
+        <ImageView
+            android:id="@+id/pokedex.png"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/pokemonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:paddingTop="8dp"/>
+
+        <!-- Tipos do Pokémon -->
+        <TextView
+            android:id="@+id/pokemonTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemon_types_label"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:paddingTop="16dp"/>
+
+        <androidx.appcompat.widget.ChipGroup
+            android:id="@+id/typeChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:chipSpacing="8dp">
+            <com.google.android.material.chip.Chip
+                android:text="@string/fire_type"
+                android:chipBackgroundColor="@color/red"
+                android:chipTextColor="#FFFFFF"/>
+            <com.google.android.material.chip.Chip
+                android:text="@string/water_type"
+                android:chipBackgroundColor="@color/blue"
+                android:chipTextColor="#FFFFFF"/>
+        </androidx.appcompat.widget.ChipGroup>
+
+        <!-- Peso e Altura -->
+        <TextView
+            android:id="@+id/pokemonWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemon_weight_label"
+            android:textSize="16sp"
+            android:textColor="#B0BEC5"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/pokemonHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemon_height_label"
+            android:textSize="16sp"
+            android:textColor="#B0BEC5"
+            android:layout_gravity="center"/>
+
+        <!-- Estatísticas Base -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemon_base_stats"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:paddingTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hp_label"
+            android:textColor="#FFFFFF"/>
+
+        <ProgressBar
+            android:id="@+id/hpBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@android:color/holo_red_light"/>
+
+        <TextView
+            android:id="@+id/attackText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/attack_label"
+            android:textColor="#FFFFFF"/>
+
+        <ProgressBar
+            android:id="@+id/attackBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="70"
+            android:progressDrawable="@android:color/holo_orange_light"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/defense_label"
+            android:textColor="#FFFFFF"/>
+
+        <ProgressBar
+            android:id="@+id/defenseBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="30"
+            android:progressDrawable="@android:color/holo_blue_light"/>
+
+    </LinearLayout>
+
+</ScrollView>
