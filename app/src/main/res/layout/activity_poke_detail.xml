@@ -1,4 +1,3 @@
-<!--
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,15 +10,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        &lt;!&ndash; Imagem do Pokémon &ndash;&gt;
 
-        &lt;!&ndash; Nome do Pokémon &ndash;&gt;
         <ImageView
-            android:id="@+id/pokedex.png"
+            android:id="@+id/pokemonImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:contentDescription="akakak"
             android:scaleType="fitCenter"
             tools:src="@drawable/pokedex" />
 
@@ -33,7 +29,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        &lt;!&ndash; Tipos do Pokémon &ndash;&gt;
+
         <TextView
             android:id="@+id/pokemonTypes"
             android:layout_width="wrap_content"
@@ -44,26 +40,28 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-        <androidx.appcompat.widget.ChipGroup
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/typeChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:chipSpacing="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+
+            >
 
             <com.google.android.material.chip.Chip
-                android:chipBackgroundColor="@color/red"
-                android:chipTextColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/fire_type" />
 
             <com.google.android.material.chip.Chip
-                android:chipBackgroundColor="@color/blue"
-                android:chipTextColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/water_type" />
-        </androidx.appcompat.widget.ChipGroup>
 
-        &lt;!&ndash; Peso e Altura &ndash;&gt;
+        </com.google.android.material.chip.ChipGroup>
+
+
         <TextView
             android:id="@+id/pokemonWeight"
             android:layout_width="wrap_content"
@@ -82,7 +80,7 @@
             android:textColor="#B0BEC5"
             android:textSize="16sp" />
 
-        &lt;!&ndash; Estatísticas Base &ndash;&gt;
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,11 +139,4 @@
     </LinearLayout>
 
 </ScrollView>
--->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#212121">
 
-</ScrollView>

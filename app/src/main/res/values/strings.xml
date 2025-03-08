@@ -12,4 +12,6 @@
     <string name="attack_label">Ataque</string>
     <string name="defense_label">Defesa</string>
     <string name="pokemon_types_label">Tipo(s):</string>
+    <string name="fire_type">fire</string>
+    <string name="water_type">water</string>
 </resources>
