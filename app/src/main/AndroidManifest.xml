@@ -26,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.pokedex_hacksprint_2025.PokeDetailActivity"/>
+        <activity
+            android:name="com.example.pokedex_hacksprint_2025.PokeDetailActivity"
+            android:theme="@style/Theme.PokeDex_Hacksprint_2025"
+            />
     </application>
 </manifest>

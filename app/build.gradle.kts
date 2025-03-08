@@ -87,6 +87,9 @@ android {
         // JSON Serialization
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+        //Chip Group
+        implementation("com.google.android.material:material:1.11.0")
+
         // Palette KTX
         implementation("androidx.palette:palette-ktx:1.0.0")
 
