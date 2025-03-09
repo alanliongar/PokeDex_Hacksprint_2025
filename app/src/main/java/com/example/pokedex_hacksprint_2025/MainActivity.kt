@@ -43,6 +43,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
+    val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
+    val pokemonNameUrl = pokemonApi.getPokemonList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,8 +53,6 @@ class MainActivity : ComponentActivity() {
             PokeDex_Hacksprint_2025Theme {
                 val context = LocalContext.current
                 var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
-                val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
-                val pokemonNameUrl = pokemonApi.getPokemonList()
 
                 pokemonNameUrl.enqueue(object : Callback<PokemonListResponse> {
                     override fun onResponse(
@@ -62,6 +63,11 @@ class MainActivity : ComponentActivity() {
                             val pokeinfo = response.body()?.results
                             if (pokeinfo != null) {
                                 pokemonNameUrlList = pokeinfo
+                                pokemonNameUrlList.map {
+                                    getPokemonDetails(
+                                        it.url.trimEnd('/').split('/').last().toInt()
+                                    )
+                                }
                             }
                         } else {
                             Log.d("MainActiviy", "RequestError :: ${response.errorBody()}")
@@ -69,7 +75,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     override fun onFailure(call: Call<PokemonListResponse>, t: Throwable) {
-                        TODO("Not yet implemented")
+                        Log.d("MainActivity", "RequestFailed :: ${t.message}")
                     }
                 })
 
@@ -91,6 +97,44 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    fun getPokemonDetails(url: Int) {
+        pokemonApi.getPokemon(url).enqueue(object : Callback<PokemonApiResult> {
+            override fun onResponse(
+                call: Call<PokemonApiResult>,
+                response: Response<PokemonApiResult>
+            ) {
+                if (response.isSuccessful) {
+                    val pokemon = response.body()
+
+                    // Exibindo os tipos
+                    val types = pokemon?.types?.joinToString(", ") { it.type.name }
+
+                    // Exibindo as estatísticas
+                    val stats = pokemon?.stats?.joinToString(", ") {
+                        "${it.stat.name}: ${it.baseStat}"
+                    }
+
+                    // Peso do Pokémon
+                    val weight = pokemon?.weight
+
+                    // URL da imagem oficial (front_default)
+                    val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault
+
+                    Log.d("MainActivity", "Types: $types")
+                    Log.d("MainActivity", "Stats: $stats")
+                    Log.d("MainActivity", "Weight: $weight")
+                    Log.d("MainActivity", "Official Artwork: $artworkUrl")  // Exibindo o URL da imagem
+                } else {
+                    Log.d("MainActivity", "RequestError :: ${response.errorBody()}")
+                }
+            }
+
+            override fun onFailure(call: Call<PokemonApiResult>, t: Throwable) {
+                Log.d("MainActivity", "RequestFailed :: ${t.message}")
+            }
+        })
     }
 }
 
