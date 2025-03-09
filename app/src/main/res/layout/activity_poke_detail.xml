@@ -10,7 +10,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
         <ImageView
             android:id="@+id/pokemonImage"
             android:layout_width="200dp"
@@ -29,7 +28,6 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-
         <TextView
             android:id="@+id/pokemonTypes"
             android:layout_width="wrap_content"
@@ -40,30 +38,30 @@
             android:textSize="18sp" />
 
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
             android:gravity="center"
+            android:orientation="horizontal"
             android:padding="8dp">
 
             <Button
                 android:id="@+id/btnTypeOne"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fire_type"
-                tools:background="@color/purple_200"
                 android:textColor="@android:color/white"
-                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                tools:background="@color/purple_200" />
 
             <Button
                 android:id="@+id/btnTypeTwo"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/water_type"
-                tools:background="@color/teal_700"
                 android:textColor="@android:color/white"
-                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                tools:background="@color/teal_700" />
         </LinearLayout>
 
         <TextView
@@ -83,7 +81,6 @@
             android:text="@string/pokemon_height_label"
             android:textColor="#B0BEC5"
             android:textSize="16sp" />
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,6 +138,5 @@
             android:progressDrawable="@android:color/holo_blue_light" />
 
     </LinearLayout>
-
 </ScrollView>
 
