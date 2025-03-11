@@ -43,6 +43,7 @@ fun PokeListScreen(modifier: Modifier = Modifier) {
     PokeListContent(context = context)
 }
 
+
 @Composable
 private fun PokeListContent(modifier: Modifier = Modifier, context: Context) {
     LazyVerticalGrid(
