@@ -17,7 +17,9 @@ data class PokemonApiResult(
         val stats: List<Stat>,
         val weight: Int,
         val sprites: Sprites  // Adicionando o campo sprites
-)
+){
+
+}
 
 // Representa cada tipo do Pokémon, com slot e tipo
 data class TypeSlot(

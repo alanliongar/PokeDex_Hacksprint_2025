@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,14 +39,15 @@ import coil.compose.AsyncImage
 import com.example.pokedex.R
 import com.example.pokedex_hacksprint_2025.RetroFitClient.retrofit
 import com.example.pokedex_hacksprint_2025.ui.theme.PokeDex_Hacksprint_2025Theme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
     val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
-    val pokemonNameUrl = pokemonApi.getPokemonList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -53,32 +55,9 @@ class MainActivity : ComponentActivity() {
             PokeDex_Hacksprint_2025Theme {
                 val context = LocalContext.current
                 var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
-
-                pokemonNameUrl.enqueue(object : Callback<PokemonListResponse> {
-                    override fun onResponse(
-                        call: Call<PokemonListResponse>,
-                        response: Response<PokemonListResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            val pokeinfo = response.body()?.results
-                            if (pokeinfo != null) {
-                                pokemonNameUrlList = pokeinfo
-                                pokemonNameUrlList.map {
-                                    getPokemonDetails(
-                                        it.url.trimEnd('/').split('/').last().toInt()
-                                    )
-                                }
-                            }
-                        } else {
-                            Log.d("MainActiviy", "RequestError :: ${response.errorBody()}")
-                        }
-                    }
-
-                    override fun onFailure(call: Call<PokemonListResponse>, t: Throwable) {
-                        Log.d("MainActivity", "RequestFailed :: ${t.message}")
-                    }
-                })
-
+                LaunchedEffect(Unit) {
+                    pokemonNameUrlList = getPokemonList()
+                }
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.fillMaxSize(),
@@ -88,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 ) { // coluna implementada so para a visualizacao do retorno da api
                     items(pokemonNameUrlList) { pokeItem->
                         PokeCard(pokeItem){clickedPokemon ->
-                            Log.d("Clique ", "Clicou no pokemon "+clickedPokemon.name)
+                            Log.d("Click", "Clicked on the pokemon "+clickedPokemon.name)
                             val intent = Intent(context, PokeDetailActivity::class.java)
                             intent.putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
                             startActivity(intent)
@@ -99,6 +78,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    suspend fun getPokemonList(): List<PokemonItem> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = pokemonApi.getPokemonList().execute() // Executa de forma síncrona
+                if (response.isSuccessful) {
+                    response.body()?.results ?: emptyList()
+                } else {
+                    Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
+                    emptyList()
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Falha na requisição: ${e.message}")
+                emptyList()
+            }
+        }
+    }
     fun getPokemonDetails(url: Int) {
         pokemonApi.getPokemon(url).enqueue(object : Callback<PokemonApiResult> {
             override fun onResponse(
@@ -159,7 +154,7 @@ fun PokeCard(
         } else {
             //Transformando a url do pokemon numa imagem específica.
             val pokeImgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+
-                pokemonItem.url.trimEnd('/').split('/').last() +
+                    pokemonItem.url.trimEnd('/').split('/').last() +
                     ".png"
 
             AsyncImage(
