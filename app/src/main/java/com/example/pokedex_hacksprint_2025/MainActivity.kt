@@ -46,54 +46,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
+
+
 class MainActivity : ComponentActivity() {
-    val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             PokeDex_Hacksprint_2025Theme {
-                val context = LocalContext.current
                 var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
                 LaunchedEffect(Unit) {
                     pokemonNameUrlList = getPokemonList()
                 }
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) { // coluna implementada so para a visualizacao do retorno da api
-                    items(pokemonNameUrlList) { pokeItem->
-                        PokeCard(pokeItem){clickedPokemon ->
-                            Log.d("Click", "Clicked on the pokemon "+clickedPokemon.name)
-                            val intent = Intent(context, PokeDetailActivity::class.java)
-                            intent.putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
-                            startActivity(intent)
-                        }
-                    }
-                }
+
             }
         }
     }
 
-    suspend fun getPokemonList(): List<PokemonItem> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = pokemonApi.getPokemonList().execute() // Executa de forma síncrona
-                if (response.isSuccessful) {
-                    response.body()?.results ?: emptyList()
-                } else {
-                    Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
-                    emptyList()
-                }
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Falha na requisição: ${e.message}")
-                emptyList()
-            }
-        }
-    }
     fun getPokemonDetails(url: Int) {
         pokemonApi.getPokemon(url).enqueue(object : Callback<PokemonApiResult> {
             override fun onResponse(
@@ -133,43 +103,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun PokeCard(
-    pokemonItem: PokemonItem,
-    onClick: (PokemonItem)->Unit
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable{onClick.invoke(pokemonItem)}
-    ) {
-        if (LocalInspectionMode.current) {
-            Image(
-                painter = painterResource(id = R.drawable.bulbasaur),
-                contentDescription = pokemonItem.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp)
-            )
-        } else {
-            //Transformando a url do pokemon numa imagem específica.
-            val pokeImgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+
-                    pokemonItem.url.trimEnd('/').split('/').last() +
-                    ".png"
 
-            AsyncImage(
-                model = pokeImgUrl,
-                contentDescription = pokemonItem.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp)
-            )
-        }
-        Text(pokemonItem.name)
-    }
-
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -183,3 +117,20 @@ val bulbaMock = PokemonItem(
     name = "Bulbasaur",
     url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
 )
+
+suspend fun getPokemonList(): List<PokemonItem> {
+    return withContext(Dispatchers.IO) {
+        try {
+            val response = pokemonApi.getPokemonList().execute() // Executa de forma síncrona
+            if (response.isSuccessful) {
+                response.body()?.results ?: emptyList()
+            } else {
+                Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
+                emptyList()
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Falha na requisição: ${e.message}")
+            emptyList()
+        }
+    }
+}
