@@ -2,11 +2,11 @@ package com.example.pokedex_hacksprint_2025.common.model
 import com.google.gson.annotations.SerializedName
 
 
-data class PokemonListResponse(
+data class PokemonListResponse(//Alan - Esse é o dataclass que faz o store da resposta da API.
         val results: List<PokemonItem>,
 )
 
-data class PokemonItem(
+data class PokemonItem( //Alan - esse aqui é o DTO da lista
         val name: String,
         var url: String
 )
@@ -17,9 +17,7 @@ data class PokemonApiResult(
         val stats: List<Stat>,
         val weight: Int,
         val sprites: Sprites  // Adicionando o campo sprites
-){
-
-}
+)
 
 // Representa cada tipo do Pokémon, com slot e tipo
 data class TypeSlot(

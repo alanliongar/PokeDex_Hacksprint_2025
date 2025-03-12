@@ -15,12 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,8 +24,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHost
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex.R
 import com.example.pokedex_hacksprint_2025.common.data.RetroFitClient
@@ -39,9 +33,6 @@ import com.example.pokedex_hacksprint_2025.common.model.PokemonItem
 import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
-import com.example.pokedex_hacksprint_2025.list.data.PokeListService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,16 +40,14 @@ import retrofit2.Response
 @Composable
 fun PokeListScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navController: NavController,
     viewModel: PokeListViewModel
 ) {
     val context = LocalContext.current
-    val pokemonListApi = RetroFitClient.retrofit.create(PokeListService::class.java)
-    val pokemonNameUrlList = viewModel.pokemonList.collectAsState().value
-
+    val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
 
     PokeListContent(
-        pokemonNameUrlList = pokemonNameUrlList,
+        pokeListUiState = pokeListUiState,
         modifier = modifier
     ) { clickedPokemon ->
         Log.d("Click", "Clicked on the pokemon " + clickedPokemon.name)
@@ -69,12 +58,29 @@ fun PokeListScreen(
     }
 }
 
-
 @Composable
 private fun PokeListContent(
-    pokemonNameUrlList: List<PokemonItem>,
+    pokeListUiState: PokeListUiState,
     modifier: Modifier = Modifier,
     onClick: (PokemonItem) -> Unit
+) {
+    if (pokeListUiState.isError) {
+        //Implementar a lógica pra tela de erro!
+
+    } else if (pokeListUiState.isLoading) {
+        //Implementar a lógica pra tela de loading!
+
+    } else {
+        val pokemonList: List<PokemonItem> = pokeListUiState.list.results
+        PokemonList(pokemonList = pokemonList, onClick = onClick)
+    }
+}
+
+@Composable
+fun PokemonList(
+    pokemonList: List<PokemonItem>,
+    onClick: (PokemonItem) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -83,7 +89,7 @@ private fun PokeListContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) { // coluna implementada so para a visualizacao do retorno da api
-        items(pokemonNameUrlList) { pokeItem ->
+        items(pokemonList) { pokeItem ->
             PokeCard(pokeItem, onClick = onClick)
         }
     }
@@ -98,7 +104,7 @@ private fun PokeCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke(pokemonItem) }
     ) {
-        if (LocalInspectionMode.current) {
+        if (LocalInspectionMode.current) { //Esse carinha aqui serve só pra fazer o preview, tá?
             Image(
                 painter = painterResource(id = R.drawable.bulbasaur),
                 contentDescription = pokemonItem.name,
@@ -126,7 +132,6 @@ private fun PokeCard(
         Text(pokemonItem.name)
     }
 }
-
 
 fun getPokemonDetails(url: Int) {
     val pokemonApi = RetroFitClient.retrofit.create(PokeDetailService::class.java)
@@ -167,25 +172,6 @@ fun getPokemonDetails(url: Int) {
         }
     })
 }
-
-suspend fun getPokemonList(pokemonApi: PokeListService): List<PokemonItem> {
-
-    return withContext(Dispatchers.IO) {
-        try {
-            val response = pokemonApi.getPokemonList().execute() // Executa de forma síncrona
-            if (response.isSuccessful) {
-                response.body()?.results ?: emptyList()
-            } else {
-                Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
-                emptyList()
-            }
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Falha na requisição: ${e.message}")
-            emptyList()
-        }
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable
