@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025;
+package com.example.pokedex_hacksprint_2025.common.model
 import com.google.gson.annotations.SerializedName
 
 

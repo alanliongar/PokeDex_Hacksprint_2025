@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025
+package com.example.pokedex_hacksprint_2025.common.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
