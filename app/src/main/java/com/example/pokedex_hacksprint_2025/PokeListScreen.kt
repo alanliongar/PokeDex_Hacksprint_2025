@@ -31,21 +31,25 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import com.example.pokedex.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
-fun PokeListScreen(modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
-
-    LaunchedEffect(Unit) {
-        pokemonNameUrlList = getPokemonList()
-    }
+fun PokeListScreen(context: Context, modifier: Modifier = Modifier) {
     PokeListContent(context = context)
 }
 
 
 @Composable
 private fun PokeListContent(modifier: Modifier = Modifier, context: Context) {
+    var pokemonNameUrlList by remember { mutableStateOf<List<PokemonItem>>(emptyList()) }
+
+    LaunchedEffect(Unit) {
+        pokemonNameUrlList = getPokemonList()
+    }
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
@@ -58,7 +62,7 @@ private fun PokeListContent(modifier: Modifier = Modifier, context: Context) {
                 Log.d("Click", "Clicked on the pokemon "+clickedPokemon.name)
                 val intent = Intent(context, PokeDetailActivity::class.java)
                 intent.putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
-                startActivity(intent)
+                context.startActivity(intent)
             }
         }
     }
@@ -99,4 +103,62 @@ fun PokeCard(
         }
         Text(pokemonItem.name)
     }
+}
+suspend fun getPokemonList(): List<PokemonItem> {
+    val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
+
+    return withContext(Dispatchers.IO) {
+        try {
+            val response = pokemonApi.getPokemonList().execute() // Executa de forma síncrona
+            if (response.isSuccessful) {
+                response.body()?.results ?: emptyList()
+            } else {
+                Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
+                emptyList()
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Falha na requisição: ${e.message}")
+            emptyList()
+        }
+    }
+}
+
+fun getPokemonDetails(url: Int) {
+    val pokemonApi = RetroFitClient.retrofit.create(PokemonApi::class.java)
+
+    pokemonApi.getPokemon(url).enqueue(object : Callback<PokemonApiResult> {
+        override fun onResponse(
+            call: Call<PokemonApiResult>,
+            response: Response<PokemonApiResult>
+        ) {
+            if (response.isSuccessful) {
+                val pokemon = response.body()
+
+                // Exibindo os tipos
+                val types = pokemon?.types?.joinToString(", ") { it.type.name }
+
+                // Exibindo as estatísticas
+                val stats = pokemon?.stats?.joinToString(", ") {
+                    "${it.stat.name}: ${it.baseStat}"
+                }
+
+                // Peso do Pokémon
+                val weight = pokemon?.weight
+
+                // URL da imagem oficial (front_default)
+                val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault
+
+                Log.d("MainActivity", "Types: $types")
+                Log.d("MainActivity", "Stats: $stats")
+                Log.d("MainActivity", "Weight: $weight")
+                Log.d("MainActivity", "Official Artwork: $artworkUrl")  // Exibindo o URL da imagem
+            } else {
+                Log.d("MainActivity", "RequestError :: ${response.errorBody()}")
+            }
+        }
+
+        override fun onFailure(call: Call<PokemonApiResult>, t: Throwable) {
+            Log.d("MainActivity", "RequestFailed :: ${t.message}")
+        }
+    })
 }
