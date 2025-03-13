@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fire_type"
                 android:textColor="@android:color/white"
-                tools:background="@color/purple_200" />
+                tools:background="@color/teal_200" />
 
             <Button
                 android:id="@+id/btnTypeTwo"
@@ -100,7 +100,7 @@
         <ProgressBar
             android:id="@+id/hpBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="50"
@@ -116,7 +116,7 @@
         <ProgressBar
             android:id="@+id/attackBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="306dp"
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="70"
@@ -131,7 +131,7 @@
         <ProgressBar
             android:id="@+id/defenseBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="385dp"
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="30"

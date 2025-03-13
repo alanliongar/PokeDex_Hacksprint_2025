@@ -100,6 +100,10 @@ android {
         implementation("io.coil-kt:coil-gif:$coil_version")
         implementation("io.coil-kt:coil-svg:$coil_version")
 
+        // Glide
+        implementation("com.github.bumptech.glide:glide:4.16.0")
+        kapt("com.github.bumptech.glide:compiler:4.16.0")
+
         // Testes
         testImplementation(libs.junit)
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
