@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,8 +30,13 @@ import coil.compose.AsyncImage
 import com.example.pokedex.R
 import com.example.pokedex_hacksprint_2025.common.data.RetroFitClient
 import com.example.pokedex_hacksprint_2025.common.model.PokemonApiResult
+import com.example.pokedex_hacksprint_2025.common.model.PokemonDetail
 import com.example.pokedex_hacksprint_2025.common.model.PokemonItem
 import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
+import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_ART
+import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_STAT
+import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_TYPE
+import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_WEIGHT
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import retrofit2.Call
@@ -50,11 +56,36 @@ fun PokeListScreen(
         pokeListUiState = pokeListUiState,
         modifier = modifier
     ) { clickedPokemon ->
-        Log.d("Click", "Clicked on the pokemon " + clickedPokemon.name)
-        val intent = Intent(context, PokeDetailActivity::class.java).apply {
-            putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+        Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
+
+        val pokemonId = clickedPokemon.url.trimEnd('/').split('/').last().toInt()
+
+        // Obtendo os detalhes de forma assíncrona
+        getPokemonDetails(pokemonId) { pokemonDetail ->
+            if (pokemonDetail != null) {
+                Log.d("PokeListScreen", "Types: ${pokemonDetail.types}")
+                Log.d("PokeListScreen", "Stats: ${pokemonDetail.stats}")
+                Log.d("PokeListScreen", "Weight: ${pokemonDetail.weight}")
+                Log.d("PokeListScreen", "Art: ${pokemonDetail.art}")
+
+                val intent = Intent(context, PokeDetailActivity::class.java).apply {
+                    putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+                    putStringArrayListExtra(
+                        KEY_POKEMON_TYPE,
+                        ArrayList(pokemonDetail.types)
+                    )
+                    putIntegerArrayListExtra(
+                        KEY_POKEMON_STAT,
+                        ArrayList(pokemonDetail.stats)
+                    )
+                    putExtra(KEY_POKEMON_WEIGHT, pokemonDetail.weight)
+                    putExtra(KEY_POKEMON_ART, pokemonDetail.art)
+                }
+                context.startActivity(intent)
+            } else {
+                Log.d("Click", "Failed to fetch Pokemon details")
+            }
         }
-        context.startActivity(intent)
     }
 }
 
@@ -133,10 +164,10 @@ private fun PokeCard(
     }
 }
 
-fun getPokemonDetails(url: Int) {
+fun getPokemonDetails(id: Int, onResult: (PokemonDetail?) -> Unit) {
     val pokemonApi = RetroFitClient.retrofit.create(PokeDetailService::class.java)
 
-    pokemonApi.getPokemon(url).enqueue(object : Callback<PokemonApiResult> {
+    pokemonApi.getPokemon(id).enqueue(object : Callback<PokemonApiResult> {
         override fun onResponse(
             call: Call<PokemonApiResult>,
             response: Response<PokemonApiResult>
@@ -144,24 +175,16 @@ fun getPokemonDetails(url: Int) {
             if (response.isSuccessful) {
                 val pokemon = response.body()
 
-                // Exibindo os tipos
-                val types = pokemon?.types?.joinToString(", ") { it.type.name }
+                // Processando os dados da API
+                val types = pokemon?.types?.map { it.type.name } ?: emptyList()
+                val stats = pokemon?.stats?.map { it.baseStat } ?: emptyList()
+                val weight = pokemon?.weight ?: 0
+                val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault ?: ""
 
-                // Exibindo as estatísticas
-                val stats = pokemon?.stats?.joinToString(", ") {
-                    "${it.stat.name}: ${it.baseStat}"
-                }
+                val pokemonDetail = PokemonDetail(types, stats, weight, artworkUrl)
 
-                // Peso do Pokémon
-                val weight = pokemon?.weight
-
-                // URL da imagem oficial (front_default)
-                val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault
-
-                Log.d("MainActivity", "Types: $types")
-                Log.d("MainActivity", "Stats: $stats")
-                Log.d("MainActivity", "Weight: $weight")
-                Log.d("MainActivity", "Official Artwork: $artworkUrl")  // Exibindo o URL da imagem
+                // Passando o resultado para quem chamou a função
+                onResult(pokemonDetail)
             } else {
                 Log.d("MainActivity", "RequestError :: ${response.errorBody()}")
             }

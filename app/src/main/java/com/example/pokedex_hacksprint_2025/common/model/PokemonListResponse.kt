@@ -58,3 +58,10 @@ data class OtherSprites(
 data class OfficialArtwork(
         @SerializedName("front_default") val frontDefault: String  // Caminho para a URL da imagem
 )
+
+data class PokemonDetail(
+        val types: List<String>,
+        val stats: List<Int>, // hp, atk, def, spatk, spdef, spd
+        val weight: Int?,
+        val art: String?
+)
