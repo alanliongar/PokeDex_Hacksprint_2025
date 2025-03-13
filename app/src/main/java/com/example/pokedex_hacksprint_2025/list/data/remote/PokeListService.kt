@@ -1,6 +1,6 @@
-package com.example.pokedex_hacksprint_2025.list.data
+package com.example.pokedex_hacksprint_2025.list.data.remote
 
-import com.example.pokedex_hacksprint_2025.common.model.PokemonListResponse
+import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonListResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

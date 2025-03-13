@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025.list.presentation
+package com.example.pokedex_hacksprint_2025.list.presentation.ui
 
 import android.content.Intent
 import android.util.Log
@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.pokedex.R
-import com.example.pokedex_hacksprint_2025.common.data.RetroFitClient
-import com.example.pokedex_hacksprint_2025.common.model.PokemonApiResult
-import com.example.pokedex_hacksprint_2025.common.model.PokemonDetail
-import com.example.pokedex_hacksprint_2025.common.model.PokemonItem
+import com.example.pokedex_hacksprint_2025.R
+import com.example.pokedex_hacksprint_2025.common.data.remote.RetroFitClient
+import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonApiResult
+import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonDetail
 import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_ART
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_STAT
@@ -39,6 +37,7 @@ import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_TYPE
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_WEIGHT
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
+import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,10 +57,10 @@ fun PokeListScreen(
     ) { clickedPokemon ->
         Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
 
-        val pokemonId = clickedPokemon.url.trimEnd('/').split('/').last().toInt()
+        val pokemonName = clickedPokemon.name
 
         // Obtendo os detalhes de forma assíncrona
-        getPokemonDetails(pokemonId) { pokemonDetail ->
+        getPokemonDetails(pokemonName) { pokemonDetail ->
             if (pokemonDetail != null) {
                 Log.d("PokeListScreen", "Types: ${pokemonDetail.types}")
                 Log.d("PokeListScreen", "Stats: ${pokemonDetail.stats}")
@@ -83,7 +82,7 @@ fun PokeListScreen(
                 }
                 context.startActivity(intent)
             } else {
-                Log.d("Click", "Failed to fetch Pokemon details")
+                Log.e("Click", "Failed to fetch Pokemon details")
             }
         }
     }
@@ -93,7 +92,7 @@ fun PokeListScreen(
 private fun PokeListContent(
     pokeListUiState: PokeListUiState,
     modifier: Modifier = Modifier,
-    onClick: (PokemonItem) -> Unit
+    onClick: (PokemonUiData) -> Unit
 ) {
     if (pokeListUiState.isError) {
         //Implementar a lógica pra tela de erro!
@@ -102,15 +101,15 @@ private fun PokeListContent(
         //Implementar a lógica pra tela de loading!
 
     } else {
-        val pokemonList: List<PokemonItem> = pokeListUiState.list.results
+        val pokemonList: List<PokemonUiData> = pokeListUiState.pokemonList
         PokemonList(pokemonList = pokemonList, onClick = onClick)
     }
 }
 
 @Composable
 fun PokemonList(
-    pokemonList: List<PokemonItem>,
-    onClick: (PokemonItem) -> Unit,
+    pokemonList: List<PokemonUiData>,
+    onClick: (PokemonUiData) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -119,7 +118,7 @@ fun PokemonList(
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) { // coluna implementada so para a visualizacao do retorno da api
+    ) {
         items(pokemonList) { pokeItem ->
             PokeCard(pokeItem, onClick = onClick)
         }
@@ -128,46 +127,40 @@ fun PokemonList(
 
 @Composable
 private fun PokeCard(
-    pokemonItem: PokemonItem,
-    onClick: (PokemonItem) -> Unit
+    pokemonUiData: PokemonUiData,
+    onClick: (PokemonUiData) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick.invoke(pokemonItem) }
+        modifier = Modifier.clickable { onClick.invoke(pokemonUiData) }
     ) {
         if (LocalInspectionMode.current) { //Esse carinha aqui serve só pra fazer o preview, tá?
             Image(
                 painter = painterResource(id = R.drawable.bulbasaur),
-                contentDescription = pokemonItem.name,
+                contentDescription = pokemonUiData.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .width(150.dp)
                     .height(150.dp)
             )
         } else {
-            //Transformando a url do pokemon numa imagem específica.
-            val pokeImgUrl =
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" +
-                        pokemonItem.url.trimEnd('/').split('/').last() +
-                        ".png"
-
             AsyncImage(
-                model = pokeImgUrl,
-                contentDescription = pokemonItem.name,
+                model = pokemonUiData.image,
+                contentDescription = pokemonUiData.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .width(150.dp)
                     .height(150.dp)
             )
         }
-        Text(pokemonItem.name)
+        Text(pokemonUiData.name)
     }
 }
 
-fun getPokemonDetails(id: Int, onResult: (PokemonDetail?) -> Unit) {
+fun getPokemonDetails(name: String, onResult: (PokemonDetail?) -> Unit) {
     val pokemonApi = RetroFitClient.retrofit.create(PokeDetailService::class.java)
 
-    pokemonApi.getPokemon(id).enqueue(object : Callback<PokemonApiResult> {
+    pokemonApi.getPokemon(name).enqueue(object : Callback<PokemonApiResult> {
         override fun onResponse(
             call: Call<PokemonApiResult>,
             response: Response<PokemonApiResult>
@@ -204,7 +197,7 @@ fun GreetingPreview() {
     }
 }
 
-val bulbaMock = PokemonItem(
+val bulbaMock = PokemonUiData(
     name = "Bulbasaur",
-    url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
+    image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
 )

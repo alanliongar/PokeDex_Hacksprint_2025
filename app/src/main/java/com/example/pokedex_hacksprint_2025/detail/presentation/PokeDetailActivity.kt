@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.text.capitalize
-import com.example.pokedex.R
+import com.example.pokedex_hacksprint_2025.R
 
 const val KEY_RESULT_POKEDEX = "DetailActivity_KEY_NAME"
 const val KEY_POKEMON_TYPE = "DetailActivity_type"
@@ -64,9 +64,6 @@ class PokeDetailActivity : AppCompatActivity() {
         } else {
             btnTypeOne.text= pokeTypes[0]
         }
-
-
-
         btnTypeOne.setBackgroundColor(getColor(R.color.teal_700))
         btnTypeTwo.setBackgroundColor(getColor(R.color.teal_200))
     }
