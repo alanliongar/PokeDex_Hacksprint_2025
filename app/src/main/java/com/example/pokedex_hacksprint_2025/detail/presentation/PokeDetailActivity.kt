@@ -7,8 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.capitalize
-import com.example.pokedex_hacksprint_2025.R
 
 const val KEY_RESULT_POKEDEX = "DetailActivity_KEY_NAME"
 const val KEY_POKEMON_TYPE = "DetailActivity_type"
@@ -53,8 +51,13 @@ class PokeDetailActivity : AppCompatActivity() {
         val attackBar = findViewById<ProgressBar>(R.id.attackBar)
         val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
 
+        
+        Glide.with(this)
+            .load(pokeArt) // URL da imagem do Pokémon vinda da API
+            .into(pokemonImage)
+        
         //Dados mockado
-        pokemonImage.setImageResource(R.drawable.eevee1)
+
         pokemonName.text = pokeName.replaceFirstChar { it.uppercaseChar() }
         pokemonWeight.text = pokeWeight.toString() + "Kg"
         pokemonHeight.text="1.5 M"
