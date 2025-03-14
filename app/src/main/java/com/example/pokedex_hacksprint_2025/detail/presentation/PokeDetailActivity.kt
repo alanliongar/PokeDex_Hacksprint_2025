@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.pokedex_hacksprint_2025.R
 
 const val KEY_RESULT_POKEDEX = "DetailActivity_KEY_NAME"
@@ -51,6 +52,7 @@ class PokeDetailActivity : AppCompatActivity() {
         val hpBar = findViewById<ProgressBar>(R.id.hpBar)
         val attackBar = findViewById<ProgressBar>(R.id.attackBar)
         val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
+        val expBar = findViewById<ProgressBar>(R.id.expBar)
 
         
         Glide.with(this)
