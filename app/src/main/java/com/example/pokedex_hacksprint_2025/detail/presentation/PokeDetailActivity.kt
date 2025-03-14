@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pokedex_hacksprint_2025.R
 
 const val KEY_RESULT_POKEDEX = "DetailActivity_KEY_NAME"
 const val KEY_POKEMON_TYPE = "DetailActivity_type"
