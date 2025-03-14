@@ -6,7 +6,7 @@ plugins {
     id("kotlin-parcelize")
 }
 android {
-    namespace = "com.example.pokedex"
+    namespace = "com.example.pokedex_hacksprint_2025"
     compileSdk = 35
 
     defaultConfig {

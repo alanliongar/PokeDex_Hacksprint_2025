@@ -1,14 +1,14 @@
 package com.example.pokedex_hacksprint_2025.list.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.pokedex_hacksprint_2025.common.data.RetroFitClient
-import com.example.pokedex_hacksprint_2025.common.model.PokemonItem
-import com.example.pokedex_hacksprint_2025.common.model.PokemonListResponse
-import com.example.pokedex_hacksprint_2025.list.data.PokeListService
+import com.example.pokedex_hacksprint_2025.PokedexApplication
+import com.example.pokedex_hacksprint_2025.list.data.PokemonListRepository
+import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokeListUiState
+import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokemonUiData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PokeListViewModel(
-    private val pokeListService: PokeListService,
+    private val repository: PokemonListRepository,
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
     private val _pokemonListUiState =
@@ -30,43 +30,36 @@ class PokeListViewModel(
     private fun fetchPokemonList() {
         _pokemonListUiState.value = _pokemonListUiState.value.copy(isLoading = true)
         viewModelScope.launch(coroutineDispatcher) {
-            try {
-                val response =
-                    pokeListService.getPokemonList().execute() // Executa de forma síncrona
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        _pokemonListUiState.value = PokeListUiState(
-                            isError = false,
-                            isLoading = false,
-                            errorMessage = "Success",
-                            list = PokemonListResponse(
-                                results = response.body()?.results ?: emptyList()
+            val result = repository.getPokemonList()
+            if (result.isSuccess) {
+                val pokemonListResult = result.getOrNull()
+                if (pokemonListResult != null) {
+                    _pokemonListUiState.value = PokeListUiState(
+                        isError = false,
+                        isLoading = false,
+                        errorMessage = "Success",
+                        pokemonList = pokemonListResult.map { pokeDto ->
+                            PokemonUiData(
+                                name = pokeDto.name,
+                                image = pokeDto.image
                             )
-                        )
-                    } else {
-                        _pokemonListUiState.value = PokeListUiState(
-                            isError = true,
-                            isLoading = false,
-                            errorMessage = "Empty request",
-                            list = PokemonListResponse(results = emptyList())
-                        )
-                    }
+                        }
+                    )
                 } else {
-                    Log.e("MainActivity", "Erro na requisição: ${response.errorBody()}")
                     _pokemonListUiState.value = PokeListUiState(
                         isError = true,
                         isLoading = false,
-                        errorMessage = "Requisition error: ${response.errorBody()}",
-                        list = PokemonListResponse(results = emptyList())
+                        errorMessage = "Empty request",
+                        pokemonList = emptyList()
                     )
                 }
-            } catch (ex: Exception) {
-                Log.e("MainActivity", "Falha na requisição", ex)
+            } else {
+                val errorMessage = result.exceptionOrNull()?.message ?: "Unknown error"
                 _pokemonListUiState.value = PokeListUiState(
                     isError = true,
                     isLoading = false,
-                    errorMessage = "Falha na requisição: ${ex.message}",
-                    list = PokemonListResponse(results = emptyList())
+                    errorMessage = errorMessage,
+                    pokemonList = emptyList()
                 )
             }
         }
@@ -77,8 +70,9 @@ class PokeListViewModel(
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-                val pokeListService = RetroFitClient.retrofit.create(PokeListService::class.java)
-                return PokeListViewModel(pokeListService) as T
+                val application = checkNotNull(extras[APPLICATION_KEY])
+                val repository = (application as PokedexApplication).repository
+                return PokeListViewModel(repository) as T
             }
         }
     }
