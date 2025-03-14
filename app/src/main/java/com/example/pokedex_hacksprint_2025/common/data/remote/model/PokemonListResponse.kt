@@ -61,8 +61,8 @@ data class OfficialArtwork(
 )
 
 data class PokemonDetail(
-        val types: List<String>,
-        val stats: List<Int>, // hp, atk, def, spatk, spdef, spd
-        val weight: Int?,
-        val art: String?
+        val types: List<String> = emptyList(),
+        val stats: List<Int> = emptyList(), // hp, atk, def, spatk, spdef, spd
+        val weight: Int? = 0,
+        val art: String? = ""
 )

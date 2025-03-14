@@ -27,20 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex_hacksprint_2025.R
-import com.example.pokedex_hacksprint_2025.common.data.remote.RetroFitClient
-import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonApiResult
-import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonDetail
-import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
-import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_ART
-import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_STAT
-import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_TYPE
-import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_POKEMON_WEIGHT
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 fun PokeListScreen(
@@ -60,33 +49,13 @@ fun PokeListScreen(
         val pokemonName = clickedPokemon.name
 
         // Obtendo os detalhes de forma assíncrona
-        getPokemonDetails(pokemonName) { pokemonDetail ->
-            if (pokemonDetail != null) {
-                Log.d("PokeListScreen", "Types: ${pokemonDetail.types}")
-                Log.d("PokeListScreen", "Stats: ${pokemonDetail.stats}")
-                Log.d("PokeListScreen", "Weight: ${pokemonDetail.weight}")
-                Log.d("PokeListScreen", "Art: ${pokemonDetail.art}")
-
-                val intent = Intent(context, PokeDetailActivity::class.java).apply {
-                    putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
-                    putStringArrayListExtra(
-                        KEY_POKEMON_TYPE,
-                        ArrayList(pokemonDetail.types)
-                    )
-                    putIntegerArrayListExtra(
-                        KEY_POKEMON_STAT,
-                        ArrayList(pokemonDetail.stats)
-                    )
-                    putExtra(KEY_POKEMON_WEIGHT, pokemonDetail.weight)
-                    putExtra(KEY_POKEMON_ART, pokemonDetail.art)
-                }
-                context.startActivity(intent)
-            } else {
-                Log.e("Click", "Failed to fetch Pokemon details")
-            }
+        val intent = Intent(context, PokeDetailActivity::class.java).apply {
+            putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
         }
+        context.startActivity(intent)
     }
 }
+
 
 @Composable
 private fun PokeListContent(
@@ -155,38 +124,6 @@ private fun PokeCard(
         }
         Text(pokemonUiData.name)
     }
-}
-
-fun getPokemonDetails(name: String, onResult: (PokemonDetail?) -> Unit) {
-    val pokemonApi = RetroFitClient.retrofit.create(PokeDetailService::class.java)
-
-    pokemonApi.getPokemon(name).enqueue(object : Callback<PokemonApiResult> {
-        override fun onResponse(
-            call: Call<PokemonApiResult>,
-            response: Response<PokemonApiResult>
-        ) {
-            if (response.isSuccessful) {
-                val pokemon = response.body()
-
-                // Processando os dados da API
-                val types = pokemon?.types?.map { it.type.name } ?: emptyList()
-                val stats = pokemon?.stats?.map { it.baseStat } ?: emptyList()
-                val weight = pokemon?.weight ?: 0
-                val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault ?: ""
-
-                val pokemonDetail = PokemonDetail(types, stats, weight, artworkUrl)
-
-                // Passando o resultado para quem chamou a função
-                onResult(pokemonDetail)
-            } else {
-                Log.d("MainActivity", "RequestError :: ${response.errorBody()}")
-            }
-        }
-
-        override fun onFailure(call: Call<PokemonApiResult>, t: Throwable) {
-            Log.d("MainActivity", "RequestFailed :: ${t.message}")
-        }
-    })
 }
 
 @Preview(showBackground = true)
