@@ -1,106 +1,130 @@
-<!--suppress AndroidDomInspection -->
-<ScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <View
+        android:id="@+id/orange_background"
+        android:layout_width="0dp"
+        android:layout_height="320dp"
+        android:background="@drawable/rounded_bottom_background_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/pokemonImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/pokemon_image_description"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
+        tools:src="@drawable/floragato" />
+
+    <TextView
+        android:id="@+id/pokemonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pokemon_image_description"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/pokemonImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/typesLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/pokemonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
 
-        <ImageView
-            android:id="@+id/pokemonImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/pokemon_image_description"
-            tools:src="@drawable/floragato" />
+        <Button
+            android:id="@+id/btnTypeOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/green_500"
+            android:text="@string/grass_type"
+            android:textColor="#FFFFFF" />
 
+        <Button
+            android:id="@+id/btnTypeTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_700"
+            android:layout_marginTop="10dp"
+            android:text="@string/water_type"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/weightHeightLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/typesLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
 
         <TextView
-            android:id="@+id/pokemonName"
+
+            android:id="@+id/pokemonWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/pokemon_image_description"
-            android:paddingTop="8dp"
+            android:text="@string/pokemon_weight_label"
             android:textColor="#FF000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/pokemonTypes"
+
+            android:id="@+id/pokemonHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="18dp"
-            android:text="@string/pokemon_types_label"
+            android:layout_marginStart="16dp"
+            android:text="@string/pokemon_height_label"
             android:textColor="#FF000000"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="213dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btnTypeOne"
-                style="@style/ButtonStylePurple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fire_type"
-                android:layout_marginEnd="16dp"/>
-
-            <Button
-                android:id="@+id/btnTypeTwo"
-                style="@style/ButtonStyleTeal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/water_type" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="24dp">
-
-            <TextView
-                android:id="@+id/pokemonWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pokemon_weight_label"
-                android:textColor="#FF000000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/pokemonHeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp" android:text="@string/pokemon_height_label"
-                android:textColor="#FF000000"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="24dp"
-            android:text="@string/pokemon_base_stats"
-            android:textColor="#FF000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/baseStatsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pokemon_base_stats"
+        android:textColor="#FF000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/weightHeightLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+    <LinearLayout
+        android:id="@+id/hpLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/baseStatsTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,14 +135,36 @@
         <ProgressBar
             android:id="@+id/hpBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:max="100"
-            android:progress="60"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:max="300"
+            android:progress="168"
+            android:progressDrawable="@drawable/progress_bar_hp" />
 
         <TextView
-            android:id="@+id/attackText"
+            android:id="@+id/hpTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="168/300"
+            android:textColor="#FF000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/atkLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/hpLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/attack_label"
@@ -127,11 +173,34 @@
         <ProgressBar
             android:id="@+id/attackBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="70"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:max="300"
+            android:progress="225"
+            android:progressDrawable="@drawable/progress_bar_attack" />
+
+        <TextView
+            android:id="@+id/atkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="225/300"
+            android:textColor="#FF000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/defenseLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/atkLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -142,16 +211,58 @@
         <ProgressBar
             android:id="@+id/defenseBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="30"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:max="300"
+            android:progress="64"
+            android:progressDrawable="@drawable/progress_bar_defense" />
 
+        <TextView
+            android:id="@+id/defenseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="64/300"
+            android:textColor="#FF000000" />
     </LinearLayout>
-</ScrollView>
 
+    <LinearLayout
+        android:id="@+id/expLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/defenseLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/exp_label"
+            android:textColor="#FF000000" />
 
+        <ProgressBar
+            android:id="@+id/expBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:max="300"
+            android:progress="245"
+            android:progressDrawable="@drawable/progress_bar_exp" />
 
-
+        <TextView
+            android:id="@+id/expTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="295/300"
+            android:textColor="#FF000000" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

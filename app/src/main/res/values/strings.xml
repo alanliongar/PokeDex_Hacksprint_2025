@@ -4,15 +4,29 @@
 
     <!-- Detalhes do Pokémon -->
     <string name="pokemon_details_title">Detalhes do Pokémon</string>
-    <string name="pokemon_weight_label">Peso: %1$s</string> <!-- Aqui, %1$s será substituído por 'weight' -->
-    <string name="pokemon_height_label">Altura: %1$s</string> <!-- Aqui, %1$s será substituído por 'height' -->
+    <string name="pokemon_weight_label">Peso: %1$s</string>
+    <string name="pokemon_height_label">Altura: %1$s</string>
     <string name="unknown">Desconhecido</string>
     <string name="pokemon_base_stats">Estatísticas Base</string>
     <string name="hp_label">HP</string>
-    <string name="attack_label">Ataque</string>
-    <string name="defense_label">Defesa</string>
+    <string name="exp_label">EXP</string>
+    <string name="attack_label">ATK</string>
+    <string name="defense_label">DEF</string>
     <string name="pokemon_types_label">Tipo(s):</string>
     <string name="fire_type">fire</string>
     <string name="water_type">water</string>
+    <string name="grass_type">grass</string>
+    <string name="electric_type">electric</string>
+    <string name="poison_type">poison</string>
+    <string name="ground_type">ground</string>
+    <string name="flying_type">flying</string>
+    <string name="psychic_type">psychic</string>
+    <string name="rock_type">rock</string>
     <string name="pokemon_image_description">Floragato</string>
+    <string name="attack_value">225/300</string>
+    <string name="defense_value">64/300</string>
+    <string name="speed_label">SPD</string>
+    <string name="speed_value">204/300</string>
+    <string name="exp_value">295/1000</string>
+
 </resources>
