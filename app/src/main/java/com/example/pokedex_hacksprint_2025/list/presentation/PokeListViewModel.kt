@@ -23,6 +23,9 @@ class PokeListViewModel(
         MutableStateFlow<PokeListUiState>(PokeListUiState())
     val pokemonListUiState: StateFlow<PokeListUiState> = _pokemonListUiState
 
+    private val _selectedPokemons = MutableStateFlow<List<PokemonUiData>>(emptyList())
+    val selectedPokemons: StateFlow<List<PokemonUiData>> = _selectedPokemons
+
     init {
         fetchPokemonList()
     }
@@ -64,6 +67,19 @@ class PokeListViewModel(
             }
         }
     }
+
+    fun toggleSelection(pokemon: PokemonUiData, isSelected: Boolean) {
+        _selectedPokemons.value = if (isSelected) {
+            if (_selectedPokemons.value.size < 2) {
+                _selectedPokemons.value + pokemon
+            } else {
+                _selectedPokemons.value
+            }
+        } else {
+            _selectedPokemons.value - pokemon
+        }
+    }
+
 
 
     companion object {
