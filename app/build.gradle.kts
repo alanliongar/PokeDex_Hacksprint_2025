@@ -51,7 +51,6 @@ android {
     }
 }
     dependencies {
-        // AndroidX e Material
         implementation(libs.androidx.appcompat)
         implementation(libs.material)
         implementation(libs.androidx.activity)
@@ -64,34 +63,21 @@ android {
         implementation("androidx.room:room-guava:$room_version")
         kapt("androidx.room:room-compiler:$room_version")
         annotationProcessor("androidx.room:room-compiler:$room_version")
-
-        // Core KTX e Lifecycle
         implementation(libs.androidx.core.ktx)
         implementation(libs.androidx.lifecycle.runtime.ktx)
-
-        // Activity Compose - Pegando a versão correta do Version Catalog
         implementation(libs.androidx.activity.compose)
-
-        // Compose BOM (Bill of Materials)
         implementation(platform(libs.androidx.compose.bom))
         implementation(libs.androidx.ui)
         implementation(libs.androidx.ui.graphics)
         implementation(libs.androidx.ui.tooling.preview)
         implementation(libs.androidx.material3)
         implementation(libs.androidx.navigation.compose)
-
-        // Retrofit
         implementation("com.squareup.retrofit2:retrofit:2.9.0")
         implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-        // JSON Serialization
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
-        //Chip Group
         implementation("com.google.android.material:material:1.11.0")
-
-        // Palette KTX
         implementation("androidx.palette:palette-ktx:1.0.0")
+        implementation("androidx.compose.material3:material3:1.3.1")
 
         // Coil (Imagens)
         val coil_version = "2.7.0"
@@ -100,22 +86,16 @@ android {
         implementation("io.coil-kt:coil-gif:$coil_version")
         implementation("io.coil-kt:coil-svg:$coil_version")
 
-        // Glide
         implementation("com.github.bumptech.glide:glide:4.16.0")
         kapt("com.github.bumptech.glide:compiler:4.16.0")
-
-        // Testes
         testImplementation(libs.junit)
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
         testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
         testImplementation("app.cash.turbine:turbine:1.2.0")
-
         androidTestImplementation(libs.androidx.junit)
         androidTestImplementation(libs.androidx.espresso.core)
         androidTestImplementation(platform(libs.androidx.compose.bom))
         androidTestImplementation(libs.androidx.ui.test.junit4)
-
-        // Debug
         debugImplementation(libs.androidx.ui.tooling)
         debugImplementation(libs.androidx.ui.test.manifest)
     }

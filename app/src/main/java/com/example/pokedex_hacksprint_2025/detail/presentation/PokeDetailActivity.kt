@@ -1,51 +1,63 @@
 package com.example.pokedex_hacksprint_2025.detail.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.pokedex_hacksprint_2025.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 const val KEY_RESULT_POKEDEX = "DetailActivity_KEY_NAME"
-const val KEY_POKEMON_TYPE = "DetailActivity_type"
-const val KEY_POKEMON_STAT = "DetailActivity_stat"
-const val KEY_POKEMON_WEIGHT = "DetailActivity_weigh"
-const val KEY_POKEMON_ART = "DetailActivity_art"
 
 
 class PokeDetailActivity : AppCompatActivity() {
+    private val pokeDetailViewModel by viewModels<PokeDetailViewModel> { PokeDetailViewModel.Factory }
+
+    private var pokemonName: String = ""
+    private var pokemonTypes: List<String> = emptyList()
+    private var pokemonStats: List<Int> = emptyList()
+    private var pokemonWeight: Int = 0
+    private var pokemonArt: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poke_detail)
-        val pokeName: String = intent.getStringExtra(KEY_RESULT_POKEDEX).toString()
-        val pokeTypes: ArrayList<String> = intent.getStringArrayListExtra(KEY_POKEMON_TYPE) ?: arrayListOf()
-        val pokeStats: ArrayList<Int> = intent.getIntegerArrayListExtra(KEY_POKEMON_STAT) ?: arrayListOf()
-        val pokeWeight: Int = intent.getIntExtra(KEY_POKEMON_WEIGHT, 0)
-        val pokeArt: String = intent.getStringExtra(KEY_POKEMON_ART) ?: ""
 
-        Log.d("PokeDetailActivity", "Received Name: $pokeName")
-        Log.d("PokeDetailActivity", "Received Types: ${pokeTypes.joinToString()}")
-        Log.d("PokeDetailActivity", "Received Stats: ${pokeStats.joinToString()}")
-        Log.d("PokeDetailActivity", "Received Weight: $pokeWeight")
-        Log.d("PokeDetailActivity", "Received Artwork: $pokeArt")
+        val pokeName: String = intent.getStringExtra(KEY_RESULT_POKEDEX).orEmpty()
+        pokeDetailViewModel.fetchPokemonDetail(pokeName)
 
-// Evitar erro ao acessar índices:
-        if (pokeTypes.isNotEmpty() && pokeStats.isNotEmpty()) {
-                    Log.d("PokeDetailActivity", "First Type: ${pokeTypes.get(0)}")
-                    Log.d("PokeDetailActivity", "First Stat: ${pokeStats.get(0)}")
+        lifecycleScope.launch(Dispatchers.Main) {
+            pokeDetailViewModel.pokemonDetail.collect { pokemonDetailUiState ->
+                if (pokemonDetailUiState?.isLoading == true) {
+                    showLoading()
+                } else if (pokemonDetailUiState?.isError == true) {
+                    pokemonDetailUiState?.errorMessage?.let { showError(it) }
                 } else {
-                    Log.d("PokeDetailActivity", "No Types or Stats available")
+                    if (pokemonDetailUiState?.pokemon != null) {
+                        pokemonName = pokeName.replaceFirstChar { it.uppercaseChar() }
+                        pokemonTypes = pokemonDetailUiState.pokemon.types
+                        pokemonStats = pokemonDetailUiState.pokemon.stats
+                        pokemonWeight = pokemonDetailUiState.pokemon.weight ?: 0
+                        pokemonArt = pokemonDetailUiState.pokemon.art ?: ""
+                        updateUi()
+                    } else {
+                        showError("Empty Requisition")
+                    }
                 }
+            }
+        }
+    }
 
-        // Pegando os componentes da UI
+    private fun updateUi() {
         val pokemonImage = findViewById<ImageView>(R.id.pokemonImage)
-        val pokemonName = findViewById<TextView>(R.id.pokemonName)
-        val pokemonWeight = findViewById<TextView>(R.id.pokemonWeight)
-        val pokemonHeight = findViewById<TextView>(R.id.pokemonHeight)
+        val textName = findViewById<TextView>(R.id.pokemonName)
+        val textWeight = findViewById<TextView>(R.id.pokemonWeight)
         val btnTypeOne = findViewById<Button>(R.id.btnTypeOne)
         val btnTypeTwo = findViewById<Button>(R.id.btnTypeTwo)
 
@@ -53,23 +65,26 @@ class PokeDetailActivity : AppCompatActivity() {
         val attackBar = findViewById<ProgressBar>(R.id.attackBar)
         val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
 
-
         Glide.with(this)
-            .load(pokeArt) // URL da imagem do Pokémon vinda da API
+            .load(pokemonArt)
             .into(pokemonImage)
 
-        //Dados mockado
+        textName.text = pokemonName
+        textWeight.text = "$pokemonWeight Kg"
 
-        pokemonName.text = pokeName.replaceFirstChar { it.uppercaseChar() }
-        pokemonWeight.text = pokeWeight.toString() + "Kg"
-        pokemonHeight.text="1.5 M"
-        if (pokeTypes.size > 1) {
-            btnTypeOne.text= pokeTypes[0]
-            btnTypeTwo.text= pokeTypes[1]
-        } else {
-            btnTypeOne.text= pokeTypes[0]
+        if (pokemonTypes.size == 2) {
+            btnTypeOne.text = pokemonTypes[0]
+            btnTypeTwo.text = pokemonTypes[1]
+        } else if (pokemonTypes.isNotEmpty()) {
+            btnTypeOne.text = pokemonTypes[0]
         }
-        btnTypeOne.setBackgroundColor(getColor(R.color.teal_700))
-        btnTypeTwo.setBackgroundColor(getColor(R.color.teal_200))
+    }
+
+    private fun showLoading() {
+        findViewById<TextView>(R.id.pokemonName).text = "Loading State"
+    }
+
+    private fun showError(errorMsg: String) {
+        findViewById<TextView>(R.id.pokemonName).text = errorMsg
     }
 }

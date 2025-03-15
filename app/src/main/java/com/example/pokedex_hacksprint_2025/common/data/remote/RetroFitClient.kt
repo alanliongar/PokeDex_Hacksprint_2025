@@ -13,7 +13,7 @@ object RetroFitClient {
 }
 
 private const val OPENAI_BASE_URL = "https://api.openai.com/v1/"
-private const val OPENAI_API_KEY = "Lula_confirma_meu_ovo_para_segundo_semestre_de_2025"
+private const val OPENAI_API_KEY = "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"
 
 private val httpClient: OkHttpClient by lazy {
     OkHttpClient.Builder()

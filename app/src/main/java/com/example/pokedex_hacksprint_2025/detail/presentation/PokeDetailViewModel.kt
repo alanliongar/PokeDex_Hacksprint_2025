@@ -9,6 +9,7 @@ import com.example.pokedex_hacksprint_2025.common.data.remote.RetroFitClient
 import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonDetail
 import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
 import com.example.pokedex_hacksprint_2025.detail.data.remote.PokemonDetailRemoteDataSource
+import com.example.pokedex_hacksprint_2025.detail.presentation.ui.PokemonDetailUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,16 +20,21 @@ class PokeDetailViewModel(
     private val remote: PokemonDetailRemoteDataSource,
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
-    private val _pokemonDetail = MutableStateFlow<PokemonDetail?>(null)
-    val pokemonDetail: StateFlow<PokemonDetail?> = _pokemonDetail
+
+    private val _pokemonDetail = MutableStateFlow<PokemonDetailUiState?>(null)
+    val pokemonDetail: StateFlow<PokemonDetailUiState?> = _pokemonDetail
 
     fun fetchPokemonDetail(name: String) {
+        _pokemonDetail.value = PokemonDetailUiState(isLoading = true)
         viewModelScope.launch(coroutineDispatcher) {
             val result = remote.getPokemonDetails(name)
             if (result.isSuccess) {
-                _pokemonDetail.value = result.getOrNull()
+                _pokemonDetail.value = PokemonDetailUiState(
+                    pokemon = result.getOrNull()
+                )
             } else {
-                _pokemonDetail.value = null
+                _pokemonDetail.value =
+                    PokemonDetailUiState(isError = true, errorMessage = "Requisition error")
             }
         }
     }
