@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025
+package com.example.pokedex
 
 import org.junit.Test
 
