@@ -11,11 +11,15 @@ class AIPokeBattleRemoteDataSource(
     suspend fun battleResult(firstPokeName: String, secondPokeName: String): Result<String> {
 
         val prompt = """
-            Simule uma batalha rápida entre $firstPokeName e $secondPokeName. 
-            Explique em no máximo 3 frases quem venceu e por quê, 
-            considerando vantagens de tipo e poder de ataque. 
-            Adicione **emojis** para representar os Pokémon e os golpes.
-            """.trimIndent()
+    Simule uma batalha rápida entre $firstPokeName e $secondPokeName. 
+    Explique em no máximo 3 frases quem venceu e por quê, 
+    considerando vantagens de tipo e poder de ataque. 
+
+    ✅ **IMPORTANTE:**  
+    - Cada frase deve ser separada por **duas quebras de linha (`\n\n`)**.  
+    - Retorne o texto já formatado corretamente, para exibição direta na tela.  
+    - Mantenha o tom **narrativo e envolvente**, usando emojis para representar os Pokémon e os golpes.  
+""".trimIndent()
 
         val request = OpenAiRequest(
             messages = listOf(
@@ -29,7 +33,7 @@ class AIPokeBattleRemoteDataSource(
             if (response.isSuccessful) {
                 val battleResult = response.body()?.choices?.firstOrNull()?.message?.content
                     ?: "Erro ao gerar batalha."
-                Result.success("🔥 Resultado da batalha: \n$battleResult")
+                Result.success("🔥 Resultado da batalha: \n\n $battleResult")
             } else {
                 Result.failure(
                     Exception(

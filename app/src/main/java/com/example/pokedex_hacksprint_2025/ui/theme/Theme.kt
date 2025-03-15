@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -12,32 +13,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Red200,
+    onPrimary = White,
+    background = EigenGrau,
+    surface = EigenGrau,
+    onBackground = White,
+    onSurface = White,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Red500,
+    onPrimary = EigenGrau,
+    background = White,
+    surface = White,
+    onBackground = EigenGrau,
+    onSurface = EigenGrau,
 )
 
+//isSystemInDarkTheme()
 @Composable
 fun PokeDex_Hacksprint_2025Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -52,7 +49,12 @@ fun PokeDex_Hacksprint_2025Theme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+        typography = Typography
+    ) {
+        ProvideTextStyle(
+            value = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground) // 🔥 Garante que TODOS os Text() sigam o tema
+        ) {
+            content()
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.pokedex_hacksprint_2025.common.data.remote
 
+import com.example.pokedex_hacksprint_2025.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
@@ -13,7 +14,7 @@ object RetroFitClient {
 }
 
 private const val OPENAI_BASE_URL = "https://api.openai.com/v1/"
-private const val OPENAI_API_KEY = "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"
+private const val OPENAI_API_KEY = BuildConfig.API_KEY
 
 private val httpClient: OkHttpClient by lazy {
     OkHttpClient.Builder()
