@@ -26,6 +26,7 @@ class PokedexApplication : Application() {
             pokemonListService
         )
     }
+
     val repository by lazy {
         PokemonListRepository(
             local = localDataSource,
