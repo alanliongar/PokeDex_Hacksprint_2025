@@ -1,5 +1,6 @@
 package com.example.pokedex_hacksprint_2025.list.presentation.ui
 
+import OpenAiService
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,6 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex_hacksprint_2025.R
+import com.example.pokedex_hacksprint_2025.battle.data.remote.AIPokeBattleRemoteDataSource
+import com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewModel
+import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleListScreen
+import com.example.pokedex_hacksprint_2025.common.data.remote.RetrofitOpenAI
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
@@ -48,21 +54,38 @@ fun PokeListScreen(
     val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
     val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
 
-    PokeListContent(
-        pokeListUiState = pokeListUiState,
-        modifier = modifier,
-        onClick = { clickedPokemon ->
-            Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
-            val intent = Intent(context, PokeDetailActivity::class.java).apply {
-                putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+    Box(modifier = Modifier.fillMaxSize()) {
+        PokeListContent(
+            pokeListUiState = pokeListUiState,
+            modifier = modifier,
+            onClick = { clickedPokemon ->
+                Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
+                val intent = Intent(context, PokeDetailActivity::class.java).apply {
+                    putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+                }
+                context.startActivity(intent)
+            },
+            onSelectionChange = { pokemon, isSelected ->
+                viewModel.toggleSelection(pokemon, isSelected)
+            },
+            selectedPokemons = selectedPokemons
+        )
+
+        // ✅ O botão aparece quando DOIS Pokémon forem selecionados
+        if (selectedPokemons.size == 2) {
+            Button(
+                onClick = {
+                    // Navegar para a tela de batalha, passando os Pokémon selecionados
+                    navController.navigate("battle_screen" + "/${selectedPokemons[0].name}" + "/${selectedPokemons[1].name}")
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(text = "⚔️ Check the battle!")
             }
-            context.startActivity(intent)
-        },
-        onSelectionChange = { pokemon, isSelected ->
-            viewModel.toggleSelection(pokemon, isSelected)
-        },
-        selectedPokemons = selectedPokemons
-    )
+        }
+    }
 }
 
 

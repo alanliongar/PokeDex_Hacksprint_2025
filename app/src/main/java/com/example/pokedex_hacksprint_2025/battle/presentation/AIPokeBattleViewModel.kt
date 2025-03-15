@@ -20,9 +20,12 @@ class AIPokeBattleViewModel(
 
     private val _pokemonBattleResult = MutableStateFlow("")
     val pokemonBattleResult: StateFlow<String> = _pokemonBattleResult
-
+    private var lastPokemonPair: Pair<String, String>? = null
 
     fun fetchBattleResult(firstPokemon: String, secondPokemon: String) {
+        val currentPair = Pair(firstPokemon, secondPokemon)
+        if (currentPair == lastPokemonPair) return
+        lastPokemonPair = currentPair
         viewModelScope.launch(coroutineDispatcher) {
             val battleResult =
                 remote.battleResult(firstPokeName = firstPokemon, secondPokeName = secondPokemon)
@@ -33,6 +36,7 @@ class AIPokeBattleViewModel(
             }
         }
     }
+
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -45,4 +49,5 @@ class AIPokeBattleViewModel(
             }
         }
     }
+
 }
