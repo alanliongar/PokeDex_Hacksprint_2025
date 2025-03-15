@@ -5,7 +5,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pokedex_hacksprint_2025.R
@@ -49,12 +48,6 @@ class PokeDetailActivity : AppCompatActivity() {
         val btnTypeOne = findViewById<Button>(R.id.btnTypeOne)
         val btnTypeTwo = findViewById<Button>(R.id.btnTypeTwo)
 
-        val hpBar = findViewById<ProgressBar>(R.id.hpBar)
-        val attackBar = findViewById<ProgressBar>(R.id.attackBar)
-        val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
-        val expBar = findViewById<ProgressBar>(R.id.expBar)
-
-        
         Glide.with(this)
             .load(pokeArt) // URL da imagem do Pokémon vinda da API
             .into(pokemonImage)
