@@ -9,8 +9,9 @@
     <string name="unknown">Desconhecido</string>
     <string name="pokemon_base_stats">Estatísticas Base</string>
     <string name="hp_label">HP</string>
-    <string name="attack_label">Ataque</string>
-    <string name="defense_label">Defesa</string>
+    <string name="exp_label">EXP</string>
+    <string name="attack_label">ATK</string>
+    <string name="defense_label">DEF</string>
     <string name="pokemon_types_label">Tipo(s):</string>
     <string name="fire_type">fire</string>
     <string name="water_type">water</string>
@@ -26,7 +27,6 @@
     <string name="defense_value">64/300</string>
     <string name="speed_label">SPD</string>
     <string name="speed_value">204/300</string>
-    <string name="exp_label">EXP</string>
     <string name="exp_value">295/1000</string>
 
 </resources>

@@ -141,10 +141,10 @@
             android:layout_marginStart="8dp"
             android:max="300"
             android:progress="168"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:progressDrawable="@drawable/progress_bar_hp" />
 
         <TextView
-            android:id="@+id/hpValue"
+            android:id="@+id/hpTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -179,10 +179,10 @@
             android:layout_marginStart="8dp"
             android:max="300"
             android:progress="225"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:progressDrawable="@drawable/progress_bar_attack" />
 
         <TextView
-            android:id="@+id/atkValue"
+            android:id="@+id/atkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -217,10 +217,10 @@
             android:layout_marginStart="8dp"
             android:max="300"
             android:progress="64"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:progressDrawable="@drawable/progress_bar_defense" />
 
         <TextView
-            android:id="@+id/defenseValue"
+            android:id="@+id/defenseTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -255,10 +255,10 @@
             android:layout_marginStart="8dp"
             android:max="300"
             android:progress="245"
-            android:progressDrawable="@drawable/progress_bar" />
+            android:progressDrawable="@drawable/progress_bar_exp" />
 
         <TextView
-            android:id="@+id/expValue"
+            android:id="@+id/expTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
