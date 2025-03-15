@@ -5,10 +5,14 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,6 +20,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +36,7 @@ import com.example.pokedex_hacksprint_2025.R
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
+import kotlinx.coroutines.selects.select
 
 @Composable
 fun PokeListScreen(
@@ -39,21 +46,23 @@ fun PokeListScreen(
 ) {
     val context = LocalContext.current
     val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
+    val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
 
     PokeListContent(
         pokeListUiState = pokeListUiState,
-        modifier = modifier
-    ) { clickedPokemon ->
-        Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
-
-        val pokemonName = clickedPokemon.name
-
-        // Obtendo os detalhes de forma assíncrona
-        val intent = Intent(context, PokeDetailActivity::class.java).apply {
-            putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
-        }
-        context.startActivity(intent)
-    }
+        modifier = modifier,
+        onClick = { clickedPokemon ->
+            Log.d("Click", "Clicked on the pokemon ${clickedPokemon.name}")
+            val intent = Intent(context, PokeDetailActivity::class.java).apply {
+                putExtra(KEY_RESULT_POKEDEX, clickedPokemon.name)
+            }
+            context.startActivity(intent)
+        },
+        onSelectionChange = { pokemon, isSelected ->
+            viewModel.toggleSelection(pokemon, isSelected)
+        },
+        selectedPokemons = selectedPokemons
+    )
 }
 
 
@@ -61,7 +70,9 @@ fun PokeListScreen(
 private fun PokeListContent(
     pokeListUiState: PokeListUiState,
     modifier: Modifier = Modifier,
-    onClick: (PokemonUiData) -> Unit
+    selectedPokemons: List<PokemonUiData>,
+    onClick: (PokemonUiData) -> Unit,
+    onSelectionChange: (PokemonUiData, Boolean) -> Unit,
 ) {
     if (pokeListUiState.isError) {
         //Implementar a lógica pra tela de erro!
@@ -71,16 +82,25 @@ private fun PokeListContent(
 
     } else {
         val pokemonList: List<PokemonUiData> = pokeListUiState.pokemonList
-        PokemonList(pokemonList = pokemonList, onClick = onClick)
+        PokemonList(
+            pokemonList = pokemonList,
+            onClick = onClick,
+            onSelectionChange = onSelectionChange,
+            selectedPokemons = selectedPokemons
+        )
     }
 }
 
 @Composable
 fun PokemonList(
     pokemonList: List<PokemonUiData>,
+    selectedPokemons: List<PokemonUiData>,
     onClick: (PokemonUiData) -> Unit,
+    onSelectionChange: (PokemonUiData, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Estado para armazenar os Pokémon selecionados (máximo de 2)
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
@@ -89,47 +109,78 @@ fun PokemonList(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(pokemonList) { pokeItem ->
-            PokeCard(pokeItem, onClick = onClick)
+            PokeCard(
+                pokemonUiData = pokeItem,
+                isSelected = selectedPokemons.contains(pokeItem),
+                onSelectionChange = onSelectionChange,
+                onClick = { onClick(pokeItem) } // Passa o callback para navegação
+            )
         }
     }
 }
 
+
 @Composable
 private fun PokeCard(
     pokemonUiData: PokemonUiData,
-    onClick: (PokemonUiData) -> Unit
+    isSelected: Boolean,
+    onSelectionChange: (PokemonUiData, Boolean) -> Unit, // Callback para atualizar seleção
+    onClick: (PokemonUiData) -> Unit // Callback para navegar para detalhes
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick.invoke(pokemonUiData) }
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (LocalInspectionMode.current) { //Esse carinha aqui serve só pra fazer o preview, tá?
+        Box(
+            modifier = Modifier
+                .width(150.dp)
+                .height(150.dp)
+                .clickable { onClick(pokemonUiData) } // Agora clica na imagem para navegar
+        ) {
+            // Imagem do Pokémon
+            if (LocalInspectionMode.current) {
+                Image(
+                    painter = painterResource(id = R.drawable.bulbasaur),
+                    contentDescription = pokemonUiData.name,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                AsyncImage(
+                    model = pokemonUiData.image,
+                    contentDescription = pokemonUiData.name,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            // Ícone de seleção sobreposto no canto superior direito
             Image(
-                painter = painterResource(id = R.drawable.bulbasaur),
-                contentDescription = pokemonUiData.name,
-                contentScale = ContentScale.Fit,
+                painter = painterResource(if (isSelected) R.drawable.sword_selected else R.drawable.sword_unselected),
+                contentDescription = "Selecionado",
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp)
-            )
-        } else {
-            AsyncImage(
-                model = pokemonUiData.image,
-                contentDescription = pokemonUiData.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp)
+                    .size(45.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(4.dp)
+                    .clickable {
+                        onSelectionChange(
+                            pokemonUiData,
+                            !isSelected
+                        ) // Controla a seleção ao clicar na espada
+                    }
             )
         }
         Text(pokemonUiData.name)
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    PokeCard(bulbaMock) { bulba ->
+    PokeCard(
+        bulbaMock, isSelected = false,
+        onSelectionChange = TODO()
+    ) { bulba ->
         println("Bulba Clicked lol")
     }
 }
