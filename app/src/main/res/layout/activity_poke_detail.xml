@@ -140,22 +140,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp">
 
-                <ProgressBar
-                    android:id="@+id/hpBar"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="300"
-                    android:progress="198"
-                    android:progressDrawable="@drawable/progress_bar_hp" />
+            <ProgressBar
+                android:id="@+id/hpBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="300"
+                android:progress="198"
+                android:progressDrawable="@drawable/progress_bar_hp" />
 
-                <TextView
-                    android:id="@+id/hpTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="198/300"
-                    android:textColor="#FF000000"/>
+            <TextView
+                android:id="@+id/hpTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="198/300"
+                android:textColor="#FF000000"/>
         </FrameLayout>
 
     </LinearLayout>

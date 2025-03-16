@@ -55,7 +55,10 @@ fun PokeListScreen(
 ) {
     val context = LocalContext.current
     val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
+    println(pokeListUiState.toString() + "Alann")
     val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
+
+    println("Até aqui tudo ok - alannn")
 
     Box(modifier = Modifier.fillMaxSize()) {
         PokeListContent(
@@ -214,6 +217,7 @@ private fun PokeCard(
 }
 
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -228,4 +232,4 @@ fun GreetingPreview() {
 val bulbaMock = PokemonUiData(
     name = "Bulbasaur",
     image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
-)
+)*/

@@ -17,12 +17,15 @@ fun PokedexApp(
     battleListViewModel: AIPokeBattleViewModel
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "pokemonList") {
+    NavHost(navController = navController, startDestination = "splash") { // ⬅️ Splash primeiro
+        composable(route = "splash") {
+            PokeHomeSplashScreen(navController = navController)
+        }
         composable(route = "pokemonList") {
             PokeListScreen(navController = navController, viewModel = pokeListViewModel)
         }
         composable(
-            route = "battle_screen" + "/{pokeNameOne}" + "/{pokeNameTwo}",
+            route = "battle_screen/{pokeNameOne}/{pokeNameTwo}",
             arguments = listOf(
                 navArgument("pokeNameOne") { type = NavType.StringType },
                 navArgument("pokeNameTwo") { type = NavType.StringType }

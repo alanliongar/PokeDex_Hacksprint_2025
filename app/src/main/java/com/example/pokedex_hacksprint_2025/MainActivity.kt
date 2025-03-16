@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         setContent {
-
             PokeDex_Hacksprint_2025Theme() {
                 PokedexApp(pokeListViewModel = pokeListViewModel, battleListViewModel = AIPokeBattleViewModel)
             }
