@@ -8,7 +8,7 @@
     android:background="#FFFFFF">
 
     <View
-        android:id="@+id/orange_background"
+        android:id="@+id/image_background"
         android:layout_width="0dp"
         android:layout_height="320dp"
         android:background="@drawable/rounded_bottom_background_image"
@@ -114,7 +114,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp" />
+
     <LinearLayout
+
         android:id="@+id/hpLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -132,24 +134,30 @@
             android:text="@string/hp_label"
             android:textColor="#FF000000" />
 
-        <ProgressBar
-            android:id="@+id/hpBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="0dp"
+        <FrameLayout
+            android:id="@+id/hpContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:max="300"
-            android:progress="168"
-            android:progressDrawable="@drawable/progress_bar_hp" />
+            android:layout_marginStart="16dp">
 
-        <TextView
-            android:id="@+id/hpTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="168/300"
-            android:textColor="#FF000000" />
+                <ProgressBar
+                    android:id="@+id/hpBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="300"
+                    android:progress="198"
+                    android:progressDrawable="@drawable/progress_bar_hp" />
+
+                <TextView
+                    android:id="@+id/hpTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="198/300"
+                    android:textColor="#FF000000"/>
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -170,24 +178,30 @@
             android:text="@string/attack_label"
             android:textColor="#FF000000" />
 
-        <ProgressBar
-            android:id="@+id/attackBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+        <FrameLayout
+            android:id="@+id/atkContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:max="300"
-            android:progress="225"
-            android:progressDrawable="@drawable/progress_bar_attack" />
+            android:layout_marginStart="16dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/atkTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="225/300"
-            android:textColor="#FF000000" />
+            <ProgressBar
+                android:id="@+id/attackBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="300"
+                android:progress="225"
+                android:progressDrawable="@drawable/progress_bar_attack" />
+
+            <TextView
+                android:id="@+id/atkTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="225/300"
+                android:textColor="#FF000000" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -208,24 +222,30 @@
             android:text="@string/defense_label"
             android:textColor="#FF000000" />
 
-        <ProgressBar
-            android:id="@+id/defenseBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+        <FrameLayout
+            android:id="@+id/defenseContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:max="300"
-            android:progress="64"
-            android:progressDrawable="@drawable/progress_bar_defense" />
+            android:layout_marginStart="16dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/defenseTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="64/300"
-            android:textColor="#FF000000" />
+            <ProgressBar
+                android:id="@+id/defenseBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="300"
+                android:progress="64"
+                android:progressDrawable="@drawable/progress_bar_defense" />
+
+            <TextView
+                android:id="@+id/defenseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="64/300"
+                android:textColor="#FF000000" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -246,23 +266,30 @@
             android:text="@string/exp_label"
             android:textColor="#FF000000" />
 
-        <ProgressBar
-            android:id="@+id/expBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+        <FrameLayout
+            android:id="@+id/expContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:max="300"
-            android:progress="245"
-            android:progressDrawable="@drawable/progress_bar_exp" />
+            android:layout_marginStart="16dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/expTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="295/300"
-            android:textColor="#FF000000" />
+            <ProgressBar
+                android:id="@+id/expBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="300"
+                android:progress="245"
+                android:progressDrawable="@drawable/progress_bar_exp" />
+
+            <TextView
+                android:id="@+id/expTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="295/300"
+                android:textColor="#FF000000" />
+        </FrameLayout>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
