@@ -33,8 +33,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex_hacksprint_2025.R
@@ -157,8 +159,8 @@ fun PokemonList(
 private fun PokeCard(
     pokemonUiData: PokemonUiData,
     isSelected: Boolean,
-    onSelectionChange: (PokemonUiData, Boolean) -> Unit, // Callback para atualizar seleção
-    onClick: (PokemonUiData) -> Unit // Callback para navegar para detalhes
+    onSelectionChange: (PokemonUiData, Boolean) -> Unit,
+    onClick: (PokemonUiData) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -167,12 +169,12 @@ private fun PokeCard(
             modifier = Modifier
                 .width(150.dp)
                 .height(150.dp)
-                .clickable { onClick(pokemonUiData) } // Agora clica na imagem para navegar
+                .clickable { onClick(pokemonUiData) }
         ) {
             // Imagem do Pokémon
             if (LocalInspectionMode.current) {
                 Image(
-                    painter = painterResource(id = R.drawable.bulbasaur),
+                    painter = painterResource(id = R.drawable.floragato),
                     contentDescription = pokemonUiData.name,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxSize()
@@ -186,7 +188,6 @@ private fun PokeCard(
                 )
             }
 
-            // Ícone de seleção sobreposto no canto superior direito
             Image(
                 painter = painterResource(
                     if (isSelected) {
@@ -209,7 +210,9 @@ private fun PokeCard(
             )
         }
         Text(
-            text = pokemonUiData.name
+            text = pokemonUiData.name,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
         )
     }
 }

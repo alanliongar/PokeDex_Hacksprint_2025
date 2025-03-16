@@ -12,7 +12,9 @@ class PokemonListRepository(
         return try {
             val result = remote.getPokemonList()
             if (result.isSuccess) {
-                val pokemonsRemote = result.getOrNull() ?: emptyList()
+                val pokemonsRemote = result.getOrNull()?.map {
+                    it.copy(name = it.name.replaceFirstChar { c -> c.uppercaseChar() })
+                } ?: emptyList()
                 if (pokemonsRemote.isNotEmpty()) {
                     local.updateLocalPokemons(pokemonsRemote)
                 }
