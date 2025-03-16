@@ -31,6 +31,7 @@ class PokeDetailActivity : AppCompatActivity() {
     private var btnColors: Pair<Int, Int> = Pair(0, 0)
     private var pokemonArtColor: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poke_detail)
