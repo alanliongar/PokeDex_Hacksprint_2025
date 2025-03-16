@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        enableEdgeToEdge()
         setContent {
             PokeDex_Hacksprint_2025Theme() {
                 PokedexApp(pokeListViewModel = pokeListViewModel, battleListViewModel = AIPokeBattleViewModel)

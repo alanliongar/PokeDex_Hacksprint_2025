@@ -23,9 +23,6 @@
             android:configChanges="uiMode"
             >
 
-            <meta-data
-                android:name="android.theme.forceDark"
-                android:value="true"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
