@@ -4,7 +4,7 @@ data class PokeListUiState(
     val pokemonList: List<PokemonUiData> = emptyList(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val errorMessage: String = "Something went wrong!",
+    val errorMessage: String? = null,
 )
 
 data class PokemonUiData(

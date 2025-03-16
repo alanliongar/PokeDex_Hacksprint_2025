@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -73,16 +76,22 @@ fun PokeListScreen(
 
         // ✅ O botão aparece quando DOIS Pokémon forem selecionados
         if (selectedPokemons.size == 2) {
-            Button(
+            IconButton(
                 onClick = {
-                    // Navegar para a tela de batalha, passando os Pokémon selecionados
-                    navController.navigate("battle_screen" + "/${selectedPokemons[0].name}" + "/${selectedPokemons[1].name}")
+                    navController.navigate("battle_screen/${selectedPokemons[0].name}/${selectedPokemons[1].name}")
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
+                    .size(130.dp)
             ) {
-                Text(text = "⚔️ Check the battle!")
+                Image(
+
+
+                    painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.sword_battle_dark else R.drawable.sword_battle),
+                    contentDescription = "Check the battle",
+                    modifier = Modifier.size(100.dp)
+                )
             }
         }
     }
@@ -178,7 +187,13 @@ private fun PokeCard(
 
             // Ícone de seleção sobreposto no canto superior direito
             Image(
-                painter = painterResource(if (isSelected) R.drawable.sword_selected else R.drawable.sword_unselected),
+                painter = painterResource(
+                    if (isSelected) {
+                        if (isSystemInDarkTheme()) R.drawable.sword_selected_dark else R.drawable.sword_selected
+                    } else {
+                        if (isSystemInDarkTheme()) R.drawable.sword_unselected_dark else R.drawable.sword_unselected
+                    }
+                ),
                 contentDescription = "Selecionado",
                 modifier = Modifier
                     .size(45.dp)
@@ -192,7 +207,9 @@ private fun PokeCard(
                     }
             )
         }
-        Text(pokemonUiData.name)
+        Text(
+            text = pokemonUiData.name
+        )
     }
 }
 
