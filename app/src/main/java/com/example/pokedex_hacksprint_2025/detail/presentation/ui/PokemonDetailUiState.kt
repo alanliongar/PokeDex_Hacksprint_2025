@@ -4,6 +4,7 @@ import com.example.pokedex_hacksprint_2025.common.data.remote.model.PokemonDetai
 
 data class PokemonDetailUiState(
     val pokemon: PokemonDetail? = null,
+    val btnColor: Pair<Int, Int>? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String? = null

@@ -58,8 +58,6 @@ fun PokeListScreen(
     println(pokeListUiState.toString() + "Alann")
     val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
 
-    println("Até aqui tudo ok - alannn")
-
     Box(modifier = Modifier.fillMaxSize()) {
         PokeListContent(
             pokeListUiState = pokeListUiState,
