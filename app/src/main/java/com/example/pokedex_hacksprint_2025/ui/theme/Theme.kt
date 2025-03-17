@@ -1,6 +1,5 @@
 package com.example.pokedex_hacksprint_2025.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +29,6 @@ private val LightColorScheme = lightColorScheme(
     onSurface = EigenGrau,
 )
 
-//isSystemInDarkTheme()
 @Composable
 fun PokeDex_Hacksprint_2025Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
