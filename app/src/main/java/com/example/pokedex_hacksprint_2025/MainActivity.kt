@@ -13,11 +13,21 @@ import com.example.pokedex_hacksprint_2025.ui.theme.PokeDex_Hacksprint_2025Theme
 class MainActivity : ComponentActivity() {
     private val pokeListViewModel by viewModels<PokeListViewModel> { PokeListViewModel.Factory }
     private val AIPokeBattleViewModel by viewModels<AIPokeBattleViewModel> { com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewModel.Factory }
+
+    companion object {
+        var navigateToPokemonList: Boolean = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navigateToPokemonList = intent.getStringExtra("navigate_to") == "pokemonList"
+
         setContent {
-            PokeDex_Hacksprint_2025Theme() {
-                PokedexApp(pokeListViewModel = pokeListViewModel, battleListViewModel = AIPokeBattleViewModel)
+            PokeDex_Hacksprint_2025Theme {
+                PokedexApp(
+                    pokeListViewModel = pokeListViewModel,
+                    battleListViewModel = AIPokeBattleViewModel
+                )
             }
         }
     }

@@ -23,27 +23,15 @@
             android:configChanges="uiMode"
             >
 
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity"
             android:theme="@style/Theme.PokeDex_Hacksprint_2025" />
-
-        <activity
-
-            android:name="com.example.pokedex_hacksprint_2025.ui.variations.SplashScreenActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
     </application>
 </manifest>

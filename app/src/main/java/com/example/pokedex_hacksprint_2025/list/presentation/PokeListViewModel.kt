@@ -1,5 +1,7 @@
 package com.example.pokedex_hacksprint_2025.list.presentation
 
+import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -11,6 +13,7 @@ import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokeListUiState
 import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokemonUiData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,12 +35,20 @@ class PokeListViewModel(
 
     private fun fetchPokemonList() {
         _pokemonListUiState.value = _pokemonListUiState.value.copy(isLoading = true)
+
         viewModelScope.launch(coroutineDispatcher) {
             val result = repository.getPokemonList()
             if (result.isSuccess) {
                 val pokemonListResult = result.getOrNull()
-                if (pokemonListResult != null) {
-                    _pokemonListUiState.value = PokeListUiState(
+                _pokemonListUiState.value = if (pokemonListResult.isNullOrEmpty()) {
+                    PokeListUiState(
+                        isError = true,
+                        isLoading = false,
+                        errorMessage = "Empty request",
+                        pokemonList = emptyList()
+                    )
+                } else {
+                    PokeListUiState(
                         isError = false,
                         isLoading = false,
                         errorMessage = "Success",
@@ -47,13 +58,6 @@ class PokeListViewModel(
                                 image = pokeDto.image
                             )
                         }
-                    )
-                } else {
-                    _pokemonListUiState.value = PokeListUiState(
-                        isError = true,
-                        isLoading = false,
-                        errorMessage = "Empty request",
-                        pokemonList = emptyList()
                     )
                 }
             } else {
@@ -67,6 +71,7 @@ class PokeListViewModel(
             }
         }
     }
+
 
     fun toggleSelection(pokemon: PokemonUiData, isSelected: Boolean) {
         _selectedPokemons.value = if (isSelected) {

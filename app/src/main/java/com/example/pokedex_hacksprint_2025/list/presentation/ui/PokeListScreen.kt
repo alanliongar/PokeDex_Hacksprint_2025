@@ -1,7 +1,5 @@
 package com.example.pokedex_hacksprint_2025.list.presentation.ui
 
-import OpenAiService
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,14 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -34,20 +26,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex_hacksprint_2025.R
-import com.example.pokedex_hacksprint_2025.battle.data.remote.AIPokeBattleRemoteDataSource
-import com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewModel
-import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleListScreen
-import com.example.pokedex_hacksprint_2025.common.data.remote.RetrofitOpenAI
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
-import kotlinx.coroutines.selects.select
+import android.content.Intent
+import androidx.compose.runtime.Composable
+import com.example.pokedex_hacksprint_2025.ui.variations.ErrorScreen
+import com.example.pokedex_hacksprint_2025.ui.variations.LoadingScreen
 
 @Composable
 fun PokeListScreen(
@@ -57,7 +47,6 @@ fun PokeListScreen(
 ) {
     val context = LocalContext.current
     val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
-    println(pokeListUiState.toString() + "Alann")
     val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -74,10 +63,10 @@ fun PokeListScreen(
             onSelectionChange = { pokemon, isSelected ->
                 viewModel.toggleSelection(pokemon, isSelected)
             },
-            selectedPokemons = selectedPokemons
+            selectedPokemons = selectedPokemons,
+            navController = navController
         )
 
-        // ✅ O botão aparece quando DOIS Pokémon forem selecionados
         if (selectedPokemons.size == 2) {
             IconButton(
                 onClick = {
@@ -89,8 +78,6 @@ fun PokeListScreen(
                     .size(130.dp)
             ) {
                 Image(
-
-
                     painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.sword_battle_dark else R.drawable.sword_battle),
                     contentDescription = "Check the battle",
                     modifier = Modifier.size(100.dp)
@@ -108,13 +95,12 @@ private fun PokeListContent(
     selectedPokemons: List<PokemonUiData>,
     onClick: (PokemonUiData) -> Unit,
     onSelectionChange: (PokemonUiData, Boolean) -> Unit,
+    navController: NavController
 ) {
     if (pokeListUiState.isError) {
-        //Implementar a lógica pra tela de erro!
-
+        ErrorScreen(navController = navController)
     } else if (pokeListUiState.isLoading) {
-        //Implementar a lógica pra tela de loading!
-
+        LoadingScreen()
     } else {
         val pokemonList: List<PokemonUiData> = pokeListUiState.pokemonList
         PokemonList(
@@ -134,8 +120,6 @@ fun PokemonList(
     onSelectionChange: (PokemonUiData, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Estado para armazenar os Pokémon selecionados (máximo de 2)
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
@@ -148,7 +132,7 @@ fun PokemonList(
                 pokemonUiData = pokeItem,
                 isSelected = selectedPokemons.contains(pokeItem),
                 onSelectionChange = onSelectionChange,
-                onClick = { onClick(pokeItem) } // Passa o callback para navegação
+                onClick = { onClick(pokeItem) }
             )
         }
     }
@@ -171,7 +155,6 @@ private fun PokeCard(
                 .height(150.dp)
                 .clickable { onClick(pokemonUiData) }
         ) {
-            // Imagem do Pokémon
             if (LocalInspectionMode.current) {
                 Image(
                     painter = painterResource(id = R.drawable.floragato),
@@ -205,7 +188,7 @@ private fun PokeCard(
                         onSelectionChange(
                             pokemonUiData,
                             !isSelected
-                        ) // Controla a seleção ao clicar na espada
+                        )
                     }
             )
         }
@@ -216,21 +199,3 @@ private fun PokeCard(
         )
     }
 }
-
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PokeCard(
-        bulbaMock, isSelected = false,
-        onSelectionChange = TODO()
-    ) { bulba ->
-        println("Bulba Clicked lol")
-    }
-}
-
-val bulbaMock = PokemonUiData(
-    name = "Bulbasaur",
-    image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
-)*/

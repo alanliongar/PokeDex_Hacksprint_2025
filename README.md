@@ -8,3 +8,7 @@ Notas para a correção:
 6 - Resumo da divisão de tarefas: Bruna e Mariana: responsáveis pelas UI feitas em XML e integração das informações com os dados vindos das API.
     Alan: responsável pela arquitetura, organização do código, Splash screen e jetpack compose;
     Philipe: Chamadas de API (para ambos os endpoints dos pokemons), criação dos DTOs e suporte na integração das informações às UI XML.
+7 - Os estados de erro e loading geraram algumas confusões, vamos a ela:
+    -Para a dela que foi detalhada em XML, não sabemos como aplicar o padrão observer, segue com erro e loading bem simples por enquanto.
+    -Para as telas de compose, os estados de erro e loading são mais fáceis de manusear, portanto estão melhores.
+8 - Ultima atualização: 17/03/2025 às 09:40:00 GMT-3
