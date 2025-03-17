@@ -10,6 +10,7 @@ import com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewM
 import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleListScreen
 import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokeListScreen
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
+import com.example.pokedex_hacksprint_2025.ui.splash.PokeHomeSplashScreen
 
 @Composable
 fun PokedexApp(
@@ -17,7 +18,7 @@ fun PokedexApp(
     battleListViewModel: AIPokeBattleViewModel
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "splash") { // ⬅️ Splash primeiro
+    NavHost(navController = navController, startDestination = "splash") {
         composable(route = "splash") {
             PokeHomeSplashScreen(navController = navController)
         }
