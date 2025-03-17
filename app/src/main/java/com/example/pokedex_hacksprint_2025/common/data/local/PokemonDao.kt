@@ -10,6 +10,6 @@ interface PokemonDao {
     @Query("Select * From pokemonentity")
     suspend fun getAllPokemons(): List<PokemonEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllPokemons(pokemons: List<PokemonEntity>)
 }

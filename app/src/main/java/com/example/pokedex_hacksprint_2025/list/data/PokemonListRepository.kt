@@ -10,20 +10,16 @@ class PokemonListRepository(
 ) {
     suspend fun getPokemonList(): Result<List<Pokemon>?> {
         return try {
-            val result = remote.getPokemonList()
-            if (result.isSuccess) {
-                val pokemonsRemote = result.getOrNull()?.map {
-                    it.copy(name = it.name.replaceFirstChar { c -> c.uppercaseChar() })
-                } ?: emptyList()
-                if (pokemonsRemote.isNotEmpty()) {
+            val result = local.getPokemonList()
+            if (result.isEmpty()) {
+                val remoteData = remote.getPokemonList()
+                if (remoteData.isSuccess) {
+                    val pokemonsRemote = remoteData.getOrNull()?.map {
+                        it.copy(name = it.name.replaceFirstChar { c -> c.uppercaseChar() })
+                    } ?: emptyList()
                     local.updateLocalPokemons(pokemonsRemote)
-                }
-            } else {
-                val localData = local.getPokemonList()
-                if (localData.isEmpty()) {
-                    return@getPokemonList result
                 } else {
-                    return@getPokemonList Result.success(localData)
+                    return@getPokemonList Result.failure(Exception("api failure and empty data"))
                 }
             }
             Result.success(local.getPokemonList())

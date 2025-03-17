@@ -14,7 +14,7 @@ class PokedexApplication : Application() {
     private val db by lazy {
         Room.databaseBuilder(
             applicationContext,
-            PokedexDataBase::class.java, "database-pokedex_00"
+            PokedexDataBase::class.java, "database-pokedex"
         ).build()
     }
     private val pokemonListService by lazy { RetroFitClient.retrofit.create(PokeListService::class.java) }
