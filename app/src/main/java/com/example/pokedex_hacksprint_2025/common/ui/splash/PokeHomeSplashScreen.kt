@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025.ui.splash
+package com.example.pokedex_hacksprint_2025.common.ui.splash
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -19,14 +19,12 @@ fun PokeHomeSplashScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
-
     LaunchedEffect(Unit) {
         delay(2000)
         navController.navigate("pokemonList") {
             popUpTo("splash") { inclusive = true }
         }
     }
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -43,8 +41,8 @@ fun PokeHomeSplashScreen(
                 )
                 .build(),
             contentDescription = "Splash GIF",
-            modifier = Modifier.size(500.dp), // Apenas controla o tamanho
-            contentScale = ContentScale.Fit // Mantém a proporção do GIF
+            modifier = Modifier.size(500.dp),
+            contentScale = ContentScale.Fit
         )
     }
 }

@@ -11,4 +11,4 @@ Notas para a correção:<br>
 7 - Os estados de erro e loading geraram algumas confusões, vamos a ela:<br>
     -Para a dela que foi detalhada em XML, não sabemos como aplicar o padrão observer, segue com erro e loading bem simples por enquanto.<br>
     -Para as telas de compose, os estados de erro e loading são mais fáceis de manusear, portanto estão melhores.<br>
-8 - Ultima atualização: 17/03/2025 às 09:40:00 GMT-3<br>
+8 - Ultima atualização: 17/03/2025 às 14:00:00 GMT-3<br>

@@ -11,8 +11,7 @@ import com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewM
 import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleScreen
 import com.example.pokedex_hacksprint_2025.list.presentation.ui.PokeListScreen
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
-import com.example.pokedex_hacksprint_2025.ui.splash.PokeHomeSplashScreen
-import com.example.pokedex_hacksprint_2025.ui.variations.ErrorScreen
+import com.example.pokedex_hacksprint_2025.common.ui.splash.PokeHomeSplashScreen
 
 @Composable
 fun PokedexApp(
@@ -21,25 +20,12 @@ fun PokedexApp(
 ) {
     val navController = rememberNavController()
 
-    // 🚀 Se a MainActivity foi chamada com navigateToPokemonList = true, força a navegação
-    LaunchedEffect(MainActivity.navigateToPokemonList) {
-        if (MainActivity.navigateToPokemonList) {
-            navController.navigate("pokemonList") {
-                popUpTo("splash") { inclusive = true } // Remove todas as telas anteriores
-            }
-            MainActivity.navigateToPokemonList = false // Resetar para evitar loops
-        }
-    }
-
     NavHost(navController = navController, startDestination = "splash") {
         composable(route = "splash") {
             PokeHomeSplashScreen(navController = navController)
         }
         composable(route = "pokemonList") {
             PokeListScreen(navController = navController, viewModel = pokeListViewModel)
-        }
-        composable(route = "errorScreen") {
-            ErrorScreen(navController = navController)
         }
         composable(
             route = "battle_screen/{pokeNameOne}/{pokeNameTwo}",
@@ -50,7 +36,6 @@ fun PokedexApp(
         ) { backStackEntry ->
             val pokeNameOne = backStackEntry.arguments?.getString("pokeNameOne") ?: ""
             val pokeNameTwo = backStackEntry.arguments?.getString("pokeNameTwo") ?: ""
-
             BattleScreen(
                 battleViewModel = battleListViewModel,
                 pokeNameOne = pokeNameOne,

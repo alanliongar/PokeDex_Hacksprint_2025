@@ -14,6 +14,7 @@ import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleUiState
 import com.example.pokedex_hacksprint_2025.common.data.remote.RetrofitOpenAI
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

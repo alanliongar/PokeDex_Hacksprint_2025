@@ -13,8 +13,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pokedex_hacksprint_2025.battle.presentation.AIPokeBattleViewModel
-import com.example.pokedex_hacksprint_2025.ui.variations.ErrorScreen
-import com.example.pokedex_hacksprint_2025.ui.variations.LoadingScreen
+import com.example.pokedex_hacksprint_2025.common.ui.ErrorScreen
+import com.example.pokedex_hacksprint_2025.common.ui.LoadingScreen
 
 @Composable
 fun BattleScreen(

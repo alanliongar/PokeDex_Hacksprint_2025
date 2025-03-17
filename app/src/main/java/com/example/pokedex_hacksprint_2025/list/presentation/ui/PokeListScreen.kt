@@ -36,8 +36,8 @@ import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivit
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import com.example.pokedex_hacksprint_2025.ui.variations.ErrorScreen
-import com.example.pokedex_hacksprint_2025.ui.variations.LoadingScreen
+import com.example.pokedex_hacksprint_2025.common.ui.ErrorScreen
+import com.example.pokedex_hacksprint_2025.common.ui.LoadingScreen
 
 @Composable
 fun PokeListScreen(
