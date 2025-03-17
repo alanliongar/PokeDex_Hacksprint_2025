@@ -1,7 +1,5 @@
 package com.example.pokedex_hacksprint_2025.list.presentation.ui
 
-import android.app.Activity
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -36,18 +34,10 @@ import com.example.pokedex_hacksprint_2025.R
 import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
 import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
-import com.example.pokedex_hacksprint_2025.ui.variations.ErrorActivity
 import android.content.Intent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import com.example.pokedex_hacksprint_2025.ui.variations.IsLoading
-import com.example.pokedex_hacksprint_2025.ui.variations.LoadingActivity
-import kotlinx.coroutines.delay
+import com.example.pokedex_hacksprint_2025.ui.variations.ErrorScreen
+import com.example.pokedex_hacksprint_2025.ui.variations.LoadingScreen
 
 @Composable
 fun PokeListScreen(
@@ -56,9 +46,7 @@ fun PokeListScreen(
     viewModel: PokeListViewModel
 ) {
     val context = LocalContext.current
-
     val pokeListUiState = viewModel.pokemonListUiState.collectAsState().value
-    println(pokeListUiState.toString() + "Alann")
     val selectedPokemons = viewModel.selectedPokemons.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -76,7 +64,7 @@ fun PokeListScreen(
                 viewModel.toggleSelection(pokemon, isSelected)
             },
             selectedPokemons = selectedPokemons,
-            context = context
+            navController = navController
         )
 
         if (selectedPokemons.size == 2) {
@@ -107,15 +95,12 @@ private fun PokeListContent(
     selectedPokemons: List<PokemonUiData>,
     onClick: (PokemonUiData) -> Unit,
     onSelectionChange: (PokemonUiData, Boolean) -> Unit,
-    context: Context
+    navController: NavController
 ) {
     if (pokeListUiState.isError) {
-        context.startActivity(Intent(context, ErrorActivity::class.java))
+        ErrorScreen(navController = navController)
     } else if (pokeListUiState.isLoading) {
-        //Era pra iniciar a activity_loading.xml, mas por conta da complexidade envolvida na volta
-        //Colocamos a activity da Mariana adaptada numa função compose, por ser algo simples
-        //E tornar fácil a atualização do estado de loading para o estado de sucesso.
-        IsLoading()
+        LoadingScreen()
     } else {
         val pokemonList: List<PokemonUiData> = pokeListUiState.pokemonList
         PokemonList(
@@ -135,8 +120,6 @@ fun PokemonList(
     onSelectionChange: (PokemonUiData, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Estado para armazenar os Pokémon selecionados (máximo de 2)
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
@@ -149,7 +132,7 @@ fun PokemonList(
                 pokemonUiData = pokeItem,
                 isSelected = selectedPokemons.contains(pokeItem),
                 onSelectionChange = onSelectionChange,
-                onClick = { onClick(pokeItem) } // Passa o callback para navegação
+                onClick = { onClick(pokeItem) }
             )
         }
     }
@@ -172,7 +155,6 @@ private fun PokeCard(
                 .height(150.dp)
                 .clickable { onClick(pokemonUiData) }
         ) {
-            // Imagem do Pokémon
             if (LocalInspectionMode.current) {
                 Image(
                     painter = painterResource(id = R.drawable.floragato),
@@ -206,7 +188,7 @@ private fun PokeCard(
                         onSelectionChange(
                             pokemonUiData,
                             !isSelected
-                        ) // Controla a seleção ao clicar na espada
+                        )
                     }
             )
         }
@@ -217,20 +199,3 @@ private fun PokeCard(
         )
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PokeCard(
-        bulbaMock, isSelected = false,
-        onSelectionChange = TODO()
-    ) { bulba ->
-        println("Bulba Clicked lol")
-    }
-}
-
-val bulbaMock = PokemonUiData(
-    name = "Bulbasaur",
-    image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png"
-)*/

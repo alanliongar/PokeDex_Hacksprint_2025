@@ -9,6 +9,6 @@ Notas para a correção:
     Alan: responsável pela arquitetura, organização do código, Splash screen e jetpack compose;
     Philipe: Chamadas de API (para ambos os endpoints dos pokemons), criação dos DTOs e suporte na integração das informações às UI XML.
 7 - Os estados de erro e loading geraram algumas confusões, vamos a ela:
-    7.1 - Da tela de lista para o erro, criamos uma intent para navegar pro erro. Ao voltar, o usuário volta pra lista (isso ok)
-    7.2 - Da tela de detalhes para a tela de erro: quando o usuário tá sem internet, e vai pra tela de detalhes, colocamos uma intent pra navegar pra terceira tela de erros. aí ao voltar, o usuário se depara com a tela de detalhes vazia.
-    7.3
+    -Para a dela que foi detalhada em XML, não sabemos como aplicar o padrão observer, segue com erro e loading bem simples por enquanto.
+    -Para as telas de compose, os estados de erro e loading são mais fáceis de manusear, portanto estão melhores.
+8 - Ultima atualização: 17/03/2025 às 09:40:00 GMT-3

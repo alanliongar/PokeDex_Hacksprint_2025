@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.pokedex_hacksprint_2025.battle.data.remote.AIPokeBattleRemoteDataSource
+import com.example.pokedex_hacksprint_2025.battle.presentation.ui.BattleUiState
 import com.example.pokedex_hacksprint_2025.common.data.remote.RetrofitOpenAI
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -21,23 +22,33 @@ class AIPokeBattleViewModel(
     private val remote: AIPokeBattleRemoteDataSource,
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
-
-    private val _pokemonBattleResult = MutableStateFlow<AnnotatedString>(AnnotatedString(""))
-    val pokemonBattleResult: StateFlow<AnnotatedString> = _pokemonBattleResult
+    private val _pokemonBattleResult = MutableStateFlow<BattleUiState>(BattleUiState())
+    val pokemonBattleResult: StateFlow<BattleUiState> = _pokemonBattleResult
     private var lastPokemonPair: Pair<String, String>? = null
 
     fun fetchBattleResult(firstPokemon: String, secondPokemon: String) {
         val currentPair = Pair(firstPokemon, secondPokemon)
-        if (currentPair == lastPokemonPair) return
+        if (currentPair == lastPokemonPair)
+            return
+        _pokemonBattleResult.value = BattleUiState(isLoading = true)
         lastPokemonPair = currentPair
         viewModelScope.launch(coroutineDispatcher) {
             val battleResult =
                 remote.battleResult(firstPokeName = firstPokemon, secondPokeName = secondPokemon)
             if (battleResult.isSuccess) {
-                _pokemonBattleResult.value =
-                    formatBattleText(battleResult.getOrNull() ?: "Erro ao gerar batalha!")
+                _pokemonBattleResult.value = BattleUiState(
+                    battle = formatBattleText(battleResult.getOrNull() ?: "Erro ao gerar batalha!"),
+                    isLoading = false,
+                    isError = false
+                )
             } else {
-                _pokemonBattleResult.value = formatBattleText("Erro ao gerar batalha!")
+                _pokemonBattleResult.value =
+                    BattleUiState(
+                        battle = formatBattleText("Erro ao gerar batalha!"),
+                        isError = true,
+                        isLoading = false,
+                        errorMessage = "Empty result!"
+                    )
             }
         }
     }
