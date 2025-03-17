@@ -1,5 +1,7 @@
 package com.example.pokedex_hacksprint_2025.detail.presentation
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -13,6 +15,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.pokedex_hacksprint_2025.R
+import com.example.pokedex_hacksprint_2025.ui.variations.ErrorActivity
+import com.example.pokedex_hacksprint_2025.ui.variations.IsLoading
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -107,6 +111,6 @@ class PokeDetailActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMsg: String) {
-        findViewById<TextView>(R.id.pokemonName).text = errorMsg
+        startActivity(Intent(this, ErrorActivity::class.java))
     }
 }
