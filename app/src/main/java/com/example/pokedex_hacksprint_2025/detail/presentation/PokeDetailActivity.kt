@@ -109,10 +109,15 @@ class PokeDetailActivity : AppCompatActivity() {
                 val btnTypeOne = findViewById<Button>(R.id.btnTypeOne)
                 val btnTypeTwo = findViewById<Button>(R.id.btnTypeTwo)
                 val imgCard = findViewById<View>(R.id.image_background)
+                val hpTextView = findViewById<TextView>(R.id.hpTextView)
+                val atkTextView = findViewById<TextView>(R.id.atkTextView)
+                val defenseTextView = findViewById<TextView>(R.id.defenseTextView)
+                val expTextView = findViewById<TextView>(R.id.expTextView)
 
                 val hpBar = findViewById<ProgressBar>(R.id.hpBar)
                 val attackBar = findViewById<ProgressBar>(R.id.attackBar)
                 val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
+                val expBar = findViewById<ProgressBar>(R.id.expBar)
 
                 if (pokemon != null) {
                     Glide.with(this@PokeDetailActivity)
@@ -141,6 +146,12 @@ class PokeDetailActivity : AppCompatActivity() {
                     hpBar.progress = pokemon.stats.getOrNull(0) ?: 0
                     attackBar.progress = pokemon.stats.getOrNull(1) ?: 0
                     defenseBar.progress = pokemon.stats.getOrNull(2) ?: 0
+                    expBar.progress = pokemon.stats.getOrNull(3) ?: 0
+
+                    hpTextView.text = "${pokemon.stats.getOrNull(0) ?: 0}/300"
+                    atkTextView.text = "${pokemon.stats.getOrNull(1) ?: 0}/300"
+                    defenseTextView.text = "${pokemon.stats.getOrNull(2) ?: 0}/300"
+                    expTextView.text = "${pokemon.stats.getOrNull(3) ?: 0}/300"
                 }
             }
         }
