@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/pokemon_weight_label"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:layout_marginStart="16dp"
             android:text="@string/pokemon_height_label"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -107,11 +107,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/pokemon_base_stats"
         android:textColor="?attr/colorOnPrimary"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weightHeightLayout" />
 

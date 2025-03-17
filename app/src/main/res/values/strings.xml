@@ -28,5 +28,6 @@
     <string name="speed_label">SPD</string>
     <string name="speed_value">204/300</string>
     <string name="exp_value">295/1000</string>
+    <string name="splash_screen">Loading...</string>
 
 </resources>

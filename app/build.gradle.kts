@@ -26,7 +26,7 @@ android {
         val properties = Properties()
         properties.load(localProperties.inputStream())
 
-        val apiKey = properties.getProperty("API_KEY")
+       val apiKey = properties.getProperty("API_KEY")
 
         buildConfigField(
             type = "String",
@@ -67,6 +67,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+            viewBinding = true
+    }
+
 }
 dependencies {
     implementation(libs.androidx.appcompat)
