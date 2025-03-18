@@ -14,6 +14,9 @@
     <color name="green_700">#FF008000</color>
     <color name="green_500">#FF006400</color>
     <color name="hp_color">#FF018786</color>
+    <color name="spatk_color">#F85888</color>
+    <color name="spdef_color">#58F898</color>
+    <color name="speed_color">#F8D030</color>
     <color name="attack_color">#FFFF0000</color>
     <color name="defense_color">#FF0000FF</color>
     <color name="exp_color">#BA8E23</color>

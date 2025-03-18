@@ -111,12 +111,16 @@ class PokeDetailActivity : AppCompatActivity() {
                 val hpTextView = findViewById<TextView>(R.id.hpTextView)
                 val atkTextView = findViewById<TextView>(R.id.atkTextView)
                 val defenseTextView = findViewById<TextView>(R.id.defenseTextView)
-                val expTextView = findViewById<TextView>(R.id.expTextView)
+                val spatkTextView = findViewById<TextView>(R.id.spatkTextView)
+                val spdefTextView = findViewById<TextView>(R.id.spdefTextView)
+                val speedTextView = findViewById<TextView>(R.id.speedTextView)
 
                 val hpBar = findViewById<ProgressBar>(R.id.hpBar)
                 val attackBar = findViewById<ProgressBar>(R.id.attackBar)
                 val defenseBar = findViewById<ProgressBar>(R.id.defenseBar)
-                val expBar = findViewById<ProgressBar>(R.id.expBar)
+                val spatkBar = findViewById<ProgressBar>(R.id.spatkBar)
+                val spdefBar = findViewById<ProgressBar>(R.id.spdefBar)
+                val speedBar = findViewById<ProgressBar>(R.id.speedBar)
 
                 if (pokemon != null) {
                     Glide.with(this@PokeDetailActivity)
@@ -145,12 +149,16 @@ class PokeDetailActivity : AppCompatActivity() {
                     hpBar.progress = pokemon.stats.getOrNull(0) ?: 0
                     attackBar.progress = pokemon.stats.getOrNull(1) ?: 0
                     defenseBar.progress = pokemon.stats.getOrNull(2) ?: 0
-                    expBar.progress = pokemon.stats.getOrNull(3) ?: 0
+                    spatkBar.progress = pokemon.stats.getOrNull(3) ?: 0
+                    spdefBar.progress = pokemon.stats.getOrNull(4) ?: 0
+                    speedBar.progress = pokemon.stats.getOrNull(5) ?: 0
 
-                    hpTextView.text = "${pokemon.stats.getOrNull(0) ?: 0}/300"
-                    atkTextView.text = "${pokemon.stats.getOrNull(1) ?: 0}/300"
-                    defenseTextView.text = "${pokemon.stats.getOrNull(2) ?: 0}/300"
-                    expTextView.text = "${pokemon.stats.getOrNull(3) ?: 0}/300"
+                    hpTextView.text = "${pokemon.stats.getOrNull(0) ?: 0}"
+                    atkTextView.text = "${pokemon.stats.getOrNull(1) ?: 0}"
+                    defenseTextView.text = "${pokemon.stats.getOrNull(2) ?: 0}"
+                    spatkTextView.text = "${pokemon.stats.getOrNull(3) ?: 0}"
+                    spdefTextView.text = "${pokemon.stats.getOrNull(4) ?: 0}"
+                    speedTextView.text = "${pokemon.stats.getOrNull(5) ?: 0}"
                 }
             }
         }
