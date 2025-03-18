@@ -7,6 +7,9 @@
     <string name="pokemon_base_stats">Estatísticas Base</string>
     <string name="hp_label">\u00A0\u00A0HP</string>
     <string name="exp_label">EXP</string>
+    <string name="spatk_label">STK</string>
+    <string name="spdef_label">SDF</string>
+    <string name="speed_label">SPD</string>
     <string name="attack_label">ATK</string>
     <string name="defense_label">DEF</string>
     <string name="pokemon_types_label">Tipo(s):</string>
@@ -22,7 +25,6 @@
     <string name="pokemon_image_description">Floragato</string>
     <string name="attack_value">225/300</string>
     <string name="defense_value">64/300</string>
-    <string name="speed_label">SPD</string>
     <string name="speed_value">204/300</string>
     <string name="exp_value">295/1000</string>
     <string name="splash_screen">Loading...</string>

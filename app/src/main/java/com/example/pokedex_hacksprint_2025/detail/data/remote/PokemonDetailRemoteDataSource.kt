@@ -20,7 +20,7 @@ class PokemonDetailRemoteDataSource(
                 val height = pokemon?.height ?: 0
                 val artworkUrl = pokemon?.sprites?.other?.officialArtwork?.frontDefault ?: ""
 
-                Result.success(PokemonDetail(types, stats, weight,height, artworkUrl))
+                Result.success(PokemonDetail(types, stats, weight, height, artworkUrl))
             } else {
                 val errorMessage = result.errorBody()?.string() ?: "Unknown error"
                 Log.d("PokemonDetailRemoteDataSource", "RequestError :: $errorMessage")

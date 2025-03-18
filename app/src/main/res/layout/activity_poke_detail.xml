@@ -257,7 +257,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/expLayout"
+            android:id="@+id/spatkLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -271,7 +271,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/exp_label"
+                android:text="@string/spatk_label"
                 android:textColor="?attr/colorOnPrimary" />
 
             <FrameLayout
@@ -282,16 +282,107 @@
                 android:layout_weight="1">
 
                 <ProgressBar
-                    android:id="@+id/expBar"
+                    android:id="@+id/spatkBar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:max="300"
                     android:progress="245"
-                    android:progressDrawable="@drawable/progress_bar_exp" />
+                    android:progressDrawable="@drawable/progress_bar_spatk" />
 
                 <TextView
-                    android:id="@+id/expTextView"
+                    android:id="@+id/spatkTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="295/300"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/spdefLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spatkLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spdef_label"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <FrameLayout
+                android:id="@+id/spdefContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/spdefBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="300"
+                    android:progress="245"
+                    android:progressDrawable="@drawable/progress_bar_spdef" />
+
+                <TextView
+                    android:id="@+id/spdefTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="295/300"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/speedLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spdefLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_label"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <FrameLayout
+                android:id="@+id/speedContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/speedBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="300"
+                    android:progress="245"
+                    android:progressDrawable="@drawable/progress_bar_speed" />
+
+                <TextView
+                    android:id="@+id/speedTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
