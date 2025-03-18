@@ -54,7 +54,6 @@ class PokeDetailActivity : AppCompatActivity() {
                         pokemonDetailUiState = pokemonDetailUiState,
                         pokeName = pokeName
                     )
-
                     else -> showError()
                 }
             }

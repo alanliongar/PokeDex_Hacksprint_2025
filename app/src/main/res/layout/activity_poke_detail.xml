@@ -9,7 +9,7 @@
         android:id="@+id/viewGroup_Poke_Detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/image_background"
@@ -342,7 +342,7 @@
         android:id="@+id/viewGroup_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
