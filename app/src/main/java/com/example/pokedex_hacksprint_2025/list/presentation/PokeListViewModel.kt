@@ -36,6 +36,7 @@ class PokeListViewModel(
     private fun fetchPokemonList() {
         _pokemonListUiState.value = _pokemonListUiState.value.copy(isLoading = true)
         viewModelScope.launch(coroutineDispatcher) {
+            delay(3000)
             val result = repository.getPokemonList()
             if (result.isSuccess) {
                 val pokemonListResult = result.getOrNull()

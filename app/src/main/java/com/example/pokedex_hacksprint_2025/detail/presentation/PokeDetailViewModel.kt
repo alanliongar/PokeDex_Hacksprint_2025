@@ -33,6 +33,7 @@ class PokeDetailViewModel(
     fun fetchPokemonDetail(name: String) {
         _pokemonDetail.value = PokemonDetailUiState(isLoading = true)
         viewModelScope.launch(coroutineDispatcher) {
+            delay(3000)
             val result = remote.getPokemonDetails(name)
             if (result.isSuccess) {
                 _pokemonDetail.value = PokemonDetailUiState(

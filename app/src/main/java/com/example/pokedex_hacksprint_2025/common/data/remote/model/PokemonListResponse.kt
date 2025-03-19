@@ -37,7 +37,7 @@ data class TypeDetails(
 
 // Estatísticas do Pokémon (baseStat, effort e stat.name)
 data class Stat(
-    @SerializedName("base_stat") val baseStat: Int,  // Usando @SerializedName para garantir o mapeamento
+    @SerializedName("base_stat") val baseStat: Int,
     val effort: Int,
     val stat: StatDetails
 )

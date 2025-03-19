@@ -34,6 +34,7 @@ class AIPokeBattleViewModel(
         _pokemonBattleResult.value = BattleUiState(isLoading = true)
         lastPokemonPair = currentPair
         viewModelScope.launch(coroutineDispatcher) {
+            delay(3000)
             val battleResult =
                 remote.battleResult(firstPokeName = firstPokemon, secondPokeName = secondPokemon)
             if (battleResult.isSuccess) {
@@ -54,7 +55,7 @@ class AIPokeBattleViewModel(
         }
     }
 
-    suspend private fun formatBattleText(rawText: String): AnnotatedString {
+    private fun formatBattleText(rawText: String): AnnotatedString {
         return buildAnnotatedString {
             val regex = Regex("\\*\\*(.*?)\\*\\*") // Captura textos entre **negrito**
             var lastIndex = 0

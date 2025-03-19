@@ -286,7 +286,7 @@
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:max="300"
+                    android:max="1000"
                     android:progress="245"
                     android:progressDrawable="@drawable/progress_bar_exp" />
 
