@@ -151,10 +151,9 @@ class PokeDetailActivity : AppCompatActivity() {
                     hpTextView.text = "${pokemon.stats.getOrNull(0) ?: 0}/300"
                     atkTextView.text = "${pokemon.stats.getOrNull(1) ?: 0}/300"
                     defenseTextView.text = "${pokemon.stats.getOrNull(2) ?: 0}/300"
-                    expTextView.text = "${((pokemon.stats.getOrNull(3) ?: 0) * 2.4).toInt()}/1000"
+                    expTextView.text = "${(pokemon.baseExp ?: 0)}/1000"
                 }
             }
         }
     }
-
 }

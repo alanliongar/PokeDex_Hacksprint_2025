@@ -1,6 +1,5 @@
 package com.example.pokedex_hacksprint_2025.common.data.remote.model
 
-import com.example.pokedex_hacksprint_2025.common.data.model.Pokemon
 import com.google.gson.annotations.SerializedName
 
 
@@ -18,6 +17,7 @@ data class PokemonItem( //Alan - esse aqui é o DTO da lista
 data class PokemonApiResult(
     val types: List<TypeSlot>,
     val stats: List<Stat>,
+    @SerializedName("base_experience") val baseExp: Int = 0,
     val height: Int,
     val weight: Int,
     val sprites: Sprites  // Adicionando o campo sprites
@@ -65,7 +65,8 @@ data class OfficialArtwork(
 
 data class PokemonDetail(
     val types: List<String> = emptyList(),
-    val stats: List<Int> = emptyList(), // hp, atk, def, spatk, spdef, spd
+    val stats: List<Int> = emptyList(),
+    @SerializedName("base_experience") val baseExp: Int = 0,
     val weight: Int? = 0,
     val height: Int? = 0,
     val art: String? = ""
