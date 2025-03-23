@@ -38,6 +38,10 @@ Pokédex App is an Android application built for the 2025 HackSprint. It allows 
   - FloatingActionButton (FAB)
   - Navigation with NavHostController
   - AsyncImage for image loading
+- XML Layouts
+  - TextView, ImageView
+  - ConstraintLayout, LinearLayout, FrameLayout
+  - Button, EditText
 - Coil for image rendering
 - Room Database
 - Retrofit
@@ -46,10 +50,7 @@ Pokédex App is an Android application built for the 2025 HackSprint. It allows 
 - MVVM Architecture
 - Repository Pattern (Offline-first)
 - Unit Tests:
-  - Fakes
-  - Turbine
   - Mockito-Kotlin
-
 ---
 
 ### License
