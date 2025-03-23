@@ -11,17 +11,23 @@ Pokédex App is an Android application built for the 2025 HackSprint. It allows 
 
 ### :camera_flash: Screenshots
 
-#### Dark Mode
-<p float="left">
-  <img src="https://github.com/alanliongar/PokeDex_Hacksprint_2025/blob/master/screenshots/Darkmode.png" width="250" />
-</p>
-
-#### Light Mode
-<p float="left">
-  <img src="https://github.com/alanliongar/PokeDex_Hacksprint_2025/blob/master/screenshots/Lightmode.png" width="250" />
-</p>
+<table>
+  <tr>
+    <th>Dark Mode</th>
+    <th>Light Mode</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/alanliongar/PokeDex_Hacksprint_2025/blob/master/screenshots/Darkmode.png" width="500" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/alanliongar/PokeDex_Hacksprint_2025/blob/master/screenshots/Lightmode.png" width="500" />
+    </td>
+  </tr>
+</table>
 
 > ⚠️ *The AI-generated battle result is currently displayed in Portuguese, as seen in the screenshots above.*
+
 
 ### Technologies
 - 100% Kotlin
