@@ -42,6 +42,7 @@ Pokédex App is an Android application built for the 2025 HackSprint. It allows 
   - ConstraintLayout, LinearLayout, FrameLayout
   - Button, EditText
 - Coil for image rendering
+- Palette for dynamic image background colors
 - Room Database
 - Retrofit
 - PokéAPI (https://pokeapi.co)
