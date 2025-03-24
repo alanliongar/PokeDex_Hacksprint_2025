@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pokedex_hacksprint_2025.R
-import com.example.pokedex_hacksprint_2025.detail.presentation.KEY_RESULT_POKEDEX
-import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailActivity
+import com.example.pokedex_hacksprint_2025.detail.presentation.ui.KEY_RESULT_POKEDEX
+import com.example.pokedex_hacksprint_2025.detail.presentation.ui.PokeDetailActivity
 import com.example.pokedex_hacksprint_2025.list.presentation.PokeListViewModel
 import android.content.Intent
 import androidx.compose.runtime.Composable

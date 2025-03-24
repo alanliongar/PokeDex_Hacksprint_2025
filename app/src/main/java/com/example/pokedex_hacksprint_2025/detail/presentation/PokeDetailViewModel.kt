@@ -8,7 +8,6 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.pokedex_hacksprint_2025.common.data.remote.RetroFitClient
 import com.example.pokedex_hacksprint_2025.detail.data.PokeDetailService
 import com.example.pokedex_hacksprint_2025.detail.data.remote.PokemonDetailRemoteDataSource
-import com.example.pokedex_hacksprint_2025.detail.presentation.ui.PokemonDetailUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +18,7 @@ import androidx.palette.graphics.Palette
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.example.pokedex_hacksprint_2025.detail.presentation.ui.PokemonDetailUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 

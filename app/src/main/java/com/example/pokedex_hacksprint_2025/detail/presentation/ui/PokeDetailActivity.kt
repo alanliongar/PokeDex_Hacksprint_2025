@@ -1,4 +1,4 @@
-package com.example.pokedex_hacksprint_2025.detail.presentation
+package com.example.pokedex_hacksprint_2025.detail.presentation.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -14,7 +14,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.pokedex_hacksprint_2025.R
-import com.example.pokedex_hacksprint_2025.detail.presentation.ui.PokemonDetailUiState
+import com.example.pokedex_hacksprint_2025.detail.presentation.PokeDetailViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
